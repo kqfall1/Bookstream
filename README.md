@@ -1,0 +1,1 @@
+To start this web application, run "npm run dev" from the root directory, not "bookstream/client". 

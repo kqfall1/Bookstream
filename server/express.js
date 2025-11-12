@@ -5,6 +5,9 @@ import compress from 'compression'
 import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
+import mongoose  from 'mongoose';
+import userRoute from './routers/user.routes.js';
+
 
 const app = express();
 app.use(bodyParser.json());
@@ -14,5 +17,5 @@ app.use(cookieParser());
 app.use(cors());
 app.use(helmet());
 app.use('src', assetRouter);
-
+app.use ("/", userRoute);
 export default app; 

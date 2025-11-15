@@ -1,10 +1,10 @@
-import user from "../models/user.model.js";
+import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import { expressjwt } from "express-jwt";
-import config from "./../../config.js"
+import config from "./../../config.js";
 const signin = async (req, res) => {
   try {
-    let user = await user.findOne({ email: req.body.email });
+    let user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(401).json({ error: "User not found" });
     if (!user.authenticate(req.body.password)) {
       return res.status(401).send({ error: "Email and password don't match." });
@@ -40,10 +40,6 @@ const requireSignin = expressjwt({
   algorithms: ["HS256"],
   userProperty: "auth",
 });
-/* const requireSignin = expressjwt({
-  secret: () => config.jwtSecret,   // wrap in a function
-  algorithms: ["HS256"],
-}); */
 
 const hasAuthorization = (req, res, next) => {
   const authorized = req.profile && req.auth && req.profile._id == req.auth._id;

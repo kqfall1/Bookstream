@@ -1,13 +1,13 @@
-import assetRouter from './routers/asset_router.js';
-import bodyParser from 'body-parser'
-import cookieParser from 'cookie-parser'
-import compress from 'compression'
-import cors from 'cors'
-import express from 'express'
-import helmet from 'helmet'
-import mongoose  from 'mongoose';
-import userRoute from './routers/user.routes.js';
-
+import assetRouter from "./routers/asset_router.js";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+import compress from "compression";
+import cors from "cors";
+import express from "express";
+import helmet from "helmet";
+import mongoose from "mongoose";
+import userRoute from "./routers/user.routes.js";
+import authRoutes from "./routers/auth.routes.js";
 
 const app = express();
 app.use(bodyParser.json());
@@ -16,6 +16,15 @@ app.use(compress());
 app.use(cookieParser());
 app.use(cors());
 app.use(helmet());
-app.use('src', assetRouter);
-app.use ("/", userRoute);
-export default app; 
+app.use("src", assetRouter);
+app.use("/", userRoute);
+app.use("/", authRoutes);
+app.use((err, req, res, next) => {
+  if (err.name === "UnauthorizedError") {
+    res.status(401).json({ error: err.name + ": " + err.message });
+  } else if (err) {
+    res.status(400).json({ error: err.name + ": " + err.message });
+    console.log(err);
+  }
+});
+export default app;

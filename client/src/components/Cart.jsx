@@ -1,5 +1,4 @@
-import React from "react";
-import "./components.css";
+import "../styles/components.css";
 
 export default function Cart({ items = [], onRemove = () => { } }) {
     const total = items.reduce((s, it) => s + it.price, 0);

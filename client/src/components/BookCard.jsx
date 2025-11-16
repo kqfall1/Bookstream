@@ -1,5 +1,4 @@
-import React from "react";
-import "./components.css";
+import "../styles/components.css";
 
 export default function BookCard({ book, onAddToCart = () => { } }) {
     return (

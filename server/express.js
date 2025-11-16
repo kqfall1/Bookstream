@@ -7,6 +7,7 @@ import express from "express";
 import helmet from "helmet";
 import mongoose from "mongoose";
 import userRoute from "./routers/user.routes.js";
+import bookRoute from "./routers/book.routes.js"; 
 import authRoutes from "./routers/auth.routes.js";
 
 const app = express();
@@ -17,7 +18,8 @@ app.use(cookieParser());
 app.use(cors());
 app.use(helmet());
 app.use("src", assetRouter);
-app.use("/", userRoute);
+app.use("/api/users", userRoute);
+app.use('/api/books', bookRoute)
 app.use("/", authRoutes);
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {

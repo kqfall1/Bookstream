@@ -1,0 +1,23 @@
+[
+    {
+        "author": "George Orwell",
+        "category": "Dystopian",
+        "description": "A chilling portrayal of a totalitarian regime that manipulates truth and controls thought.",
+        "isbn": "9780451524935",
+        "photoPath": "/images/1984.jpg",
+        "publisher": "Secker & Warburg",
+        "title": "1984",
+        "yearPublished": 1949
+    },
+
+    {
+        "author": "Michelle Obama",
+        "category": "Memoir",
+        "description": "An intimate, powerful, and inspiring memoir by the former First Lady of the United States.",
+        "isbn": "9781524763138",
+        "photoPath": "/images/becoming.jpg",
+        "publisher": "Crown Publishing Group",
+        "title": "Becoming",
+        "yearPublished": 2018
+    }
+]

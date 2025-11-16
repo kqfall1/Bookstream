@@ -4,10 +4,10 @@ import express from 'express'
 
 const router = express.Router()
 
-router.route('/api/books')
+router.route('/')
     .get(bookCtrl.list)
     .post(bookCtrl.create)
-router.route('/api/books/:bookId')
+router.route('/:bookId')
     .get(authCtrl.requireSignin, bookCtrl.read)
     .put(authCtrl.requireSignin, bookCtrl.update)
     .delete(authCtrl.requireSignin, bookCtrl.remove)

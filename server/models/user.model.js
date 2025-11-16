@@ -16,12 +16,6 @@ const userSchema = new mongoose.Schema({
     required: "Email is required",
   },
 
-  created: {
-    type: Date,
-    default: Date.now,
-  },
-  updated: Date,
-
   hashed_password: {
     type: String,
     required: "Password is required",

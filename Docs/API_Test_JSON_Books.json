@@ -21,5 +21,29 @@
         "price": 17.99,
         "title": "Becoming",
         "yearPublished": 2018
+    }, 
+
+    {
+        "author": "Andrew Hunt", 
+        "category": "Software",
+        "description": "A timeless guide to software craftsmanship, offering practical advice for developers at every level.",
+        "isbn": "9780201616224",
+        "photoPath": "/images/pragmatic-programmer.jpg",
+        "price": 49.99,
+        "publisher": "Addison-Wesley",
+        "title": "The Pragmatic Programmer",
+        "yearPublished": 1999
+    }, 
+
+    {
+        "author": "Andrew Hunt",
+        "category": "Software",
+        "description": "A timeless guide to software craftsmanship, offering practical advice for developers at every level.",
+        "isbn": "9780201616224",
+        "photoPath": "/images/pragmatic-programmer.jpg",
+        "price": 49.99,
+        "publisher": "Addison-Wesley",
+        "title": "The Pragmatic Programmer",
+        "yearPublished": 1999
     }
 ]

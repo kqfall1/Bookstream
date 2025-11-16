@@ -59,7 +59,7 @@ const userByID = async (req, res, next, id) => {
     req.profile = user;
     next(); // middleware function that passes control to the next middleware function or route handler
   } catch (err) {
-    return res.status(400).json({
+    return res.status(404).json({
       error: "Could not retrieve user",
     });
   }

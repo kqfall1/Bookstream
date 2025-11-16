@@ -1,14 +1,38 @@
-import React, { useState } from "react";
+import auth from '../../lib/auth.helpers.js'
+import { signIn } from '../../lib/api.auth.js'
+import { useNavigate } from 'react-router-dom' 
+import { useState } from "react";
 import "./components.css";
 
+const INITAL_STATE = {
+    email: '', 
+    password: ''
+}
+
 export default function SignIn() {
-    const [form, setForm] = useState({ email: "", password: "" });
+    const navigate = useNavigate()
+    const [form, setForm] = useState(INITAL_STATE);
+
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: replace with real authentication call
-        console.log("Sign in attempt:", form);
-        alert("Sign-in submitted (mock).");
+        
+        try {
+            await signIn(form)
+
+            if (auth.isAuthenticated()) {
+                setForm(INITAL_STATE)
+                window.alert('Successfully signed in.')
+                navigate('/')
+            }
+            else {
+                window.alert('You have entered invalid credentials.')
+            }
+        }
+        catch (err) {
+            console.log(err)
+            window.alert("An unexpected error occurred. Please try again later.")
+        }
     };
 
     return (

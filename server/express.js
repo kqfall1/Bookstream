@@ -17,7 +17,7 @@ app.use(compress());
 app.use(cookieParser());
 app.use(cors());
 app.use(helmet());
-app.use("src", assetRouter);
+app.use("/src", assetRouter);
 app.use("/api/users", userRoute);
 app.use('/api/books', bookRoute)
 app.use("/api/auth", authRoutes);

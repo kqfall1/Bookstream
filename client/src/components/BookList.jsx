@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import BookCard from "./BookCard";
 import Cart from "./Cart";
-import "./components.css";
+import "../styles/components.css";
 
 const sampleBooks = [
     {

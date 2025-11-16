@@ -2,7 +2,7 @@ import auth from '../../lib/auth.helpers.js'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { signOut } from '../../lib/api.auth.js'
 import { useEffect, useState } from 'react';
-import "./components.css";
+import "../styles/components.css";
 
 export default function NavBar({ cartCount = 0 }) {
     const location = useLocation();

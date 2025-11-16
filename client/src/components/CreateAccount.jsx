@@ -1,14 +1,37 @@
-import React, { useState } from "react";
-import "./components.css";
+import { create } from '../../lib/api.crud.js'; 
+import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import "../styles/components.css";
+
+const INITIAL_STATE = {
+    email: '', 
+    name: '', 
+    password: ''
+}
 
 export default function CreateAccount() {
-    const [form, setForm] = useState({ name: "", email: "", password: "" });
+    const navigate = useNavigate()
+    const [form, setForm] = useState(INITIAL_STATE);
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: replace console.log with API call to backend /users/register
-        console.log("Create account:", form);
-        alert("Account creation submitted (mock).");
+        
+        try {
+            const user = await create('/api/users/', null, form);
+
+            if (!user || user.error) {
+                window.alert('Your sign up was unsuccessful.');
+            }
+            else {
+                setForm(INITIAL_STATE);
+                window.alert('You have signed up successfully! Welcome aboard!');
+                navigate('/')
+            }
+        }
+        catch (err) {
+            console.log(err)
+            window.alert('An unexpected error occurred. Please try again later.');
+        }
     };
 
     return (

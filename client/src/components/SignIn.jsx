@@ -2,7 +2,7 @@ import auth from '../../lib/auth.helpers.js'
 import { signIn } from '../../lib/api.auth.js'
 import { useNavigate } from 'react-router-dom' 
 import { useState } from "react";
-import "./components.css";
+import "../styles/components.css";
 
 const INITAL_STATE = {
     email: '', 

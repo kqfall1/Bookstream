@@ -54,10 +54,16 @@ const list = async (apiRoute, signal) => {
             signal: signal
         }); 
 
+        //console.log(res)
         return await handleResponse(res);
     }
     catch (err) {
-        return handleError(err);
+        if (err.name === "AbortError") {
+            return [];
+        }
+        else {
+            return handleError(err);
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 import { create } from '../../lib/api.crud.js'; 
 import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/components.css";
 
 const INITIAL_STATE = {

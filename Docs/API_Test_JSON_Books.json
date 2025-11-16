@@ -6,6 +6,7 @@
         "isbn": "9780451524935",
         "photoPath": "/images/1984.jpg",
         "publisher": "Secker & Warburg",
+        "price": 20.99, 
         "title": "1984",
         "yearPublished": 1949
     },
@@ -17,6 +18,7 @@
         "isbn": "9781524763138",
         "photoPath": "/images/becoming.jpg",
         "publisher": "Crown Publishing Group",
+        "price": 17.99,
         "title": "Becoming",
         "yearPublished": 2018
     }

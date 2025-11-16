@@ -61,3 +61,5 @@ const bookSchema = new mongoose.Schema({
         required: "Year published is required"
     }
 }, { timestamps: true}); 
+
+export default mongoose.model("Book", bookSchema)

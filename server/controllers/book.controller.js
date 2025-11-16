@@ -79,4 +79,4 @@ const update = async (req, res) => {
     }
 }
 
-export { create, bookByID, list, read, remove, update }
+export default { create, bookByID, list, read, remove, update }

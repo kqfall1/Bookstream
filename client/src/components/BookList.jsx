@@ -1,40 +1,52 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import BookCard from "./BookCard";
-import Cart from "./Cart";
-import "./components.css";
-
-const sampleBooks = [
-    {
-        id: 1,
-        title: "The Pragmatic Web",
-        author: "Jane Developer",
-        price: 14.99,
-        img: "https://via.placeholder.com/100x140?text=Book+1",
-    },
-    {
-        id: 2,
-        title: "Design Patterns for Developers",
-        author: "John Architect",
-        price: 19.99,
-        img: "https://via.placeholder.com/100x140?text=Book+2",
-    },
-];
+import "../styles/components.css";
+import { list } from "../../lib/api.crud";
 
 export default function BooksList() {
-    const [cart, setCart] = useState([]);
-    const addToCart = (book) => setCart((c) => [...c, book]);
-    const removeFromCart = (index) => setCart((c) => c.filter((_, i) => i !== index));
+    const [books, setBooks] = useState([]);
+
+    useEffect(() => {
+        const controller = new AbortController();
+
+        const fetchBooks = async () => {
+            try {
+                const data = await list("/api/books/", controller.signal);
+
+                if (!Array.isArray(data)) {
+                    window.alert("Failed to fetch books!");
+                } 
+                else {
+                    setBooks(data);
+                }
+            } 
+            catch (err) {
+                if (err.name === "AbortError") { // Expected during unmount or re-render
+                    console.log("Fetch aborted: component unmounted or re-rendered.");
+                } 
+                else {
+                    console.error("Fetch error:", err);
+                }
+            }
+        }  
+
+        fetchBooks();
+        return () => controller.abort();  
+    }, [])  
 
     return (
         <div className="bs-books-page">
+            <h2>📚 Book List</h2>
             <div className="bs-books-grid">
-                {sampleBooks.map((b) => (
-                    <BookCard key={b.id} book={b} onAddToCart={addToCart} />
-                ))}
+                {
+                    books?.length > 0 ? (
+                        books.map((b) => (
+                            <BookCard key={b._id} book={b} onAddToCart={() => {}} />
+                        ))
+                    ) 
+                    : (<p>No books available.</p>)
+                }
             </div>
-            <aside className="bs-aside-cart">
-                <Cart items={cart} onRemove={removeFromCart} />
-            </aside>
         </div>
     );
 }

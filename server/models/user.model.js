@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import crypto from "crypto";
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
@@ -16,20 +16,14 @@ const UserSchema = new mongoose.Schema({
     required: "Email is required",
   },
 
-  created: {
-    type: Date,
-    default: Date.now,
-  },
-  updated: Date,
-
   hashed_password: {
     type: String,
     required: "Password is required",
   },
   salt: String,
-});
+}, { timestamps: true });
 
-UserSchema.virtual("password")
+userSchema.virtual("password")
   .set(function (password) {
     this._password = password;
     this.salt = this.makeSalt();
@@ -40,7 +34,7 @@ UserSchema.virtual("password")
     return this._password;
   });
 
-UserSchema.path("hashed_password").validate(function (v) {
+userSchema.path("hashed_password").validate(function (v) {
   if (this._password && this._password.length < 6) {
     this.invalidate("password", "Password must be at least 6 characters.");
   }
@@ -49,7 +43,7 @@ UserSchema.path("hashed_password").validate(function (v) {
   }
 }, null);
 
-UserSchema.methods = {
+userSchema.methods = {
   authenticate: function (plainText) {
     return this.encryptPassword(plainText) === this.hashed_password;
   },
@@ -65,4 +59,4 @@ UserSchema.methods = {
     return Math.round(new Date().valueOf() * Math.random()) + "";
   },
 };
-export default mongoose.model("user", UserSchema); //export to use in other files
+export default mongoose.model("user", userSchema); //export to use in other files

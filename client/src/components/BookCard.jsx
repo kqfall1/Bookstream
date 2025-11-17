@@ -1,6 +1,6 @@
 import "../styles/components.css";
 
-export default function BookCard({ book }) {
+export default function BookCard({ book, onAddToCart = () => {}  }) {
     return (
         <div className="bs-book-card">
             <div className="bs-book-info">
@@ -8,7 +8,7 @@ export default function BookCard({ book }) {
                 <p className="bs-author">{book.author}</p>
                 <h4 className="bs-price">${book.price}</h4>
                 <div className="bs-bottom">
-                    <button className="bs-btn">Add to Cart</button>
+                    <button className="bs-btn" onClick={onAddToCart}>Add to Cart</button>
                 </div>
             </div>
         </div>

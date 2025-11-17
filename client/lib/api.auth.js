@@ -26,7 +26,7 @@ const signIn = async (credentials) => {
             auth.authenticate(data.token)
         }
 
-        //console.log(data)
+        console.log(data)
         return data
     }
     catch (err) {

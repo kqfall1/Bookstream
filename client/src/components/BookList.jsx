@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import BookCard from "./BookCard";
 import "../styles/components.css";
 import { list } from "../../lib/api.crud";
+import Cart from "./Cart.jsx"
 
 export default function BooksList() {
     const [books, setBooks] = useState([]);
+    const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -34,14 +36,40 @@ export default function BooksList() {
         return () => controller.abort();  
     }, [])  
 
+
+    /**
+     * Adds a book to the shopping cart
+     * @param {Object} book - The book object to add to cart
+     */
+    const addToCart = (book) => {
+        // Create a cart item with necessary properties
+        const cartItem = {
+            id: book._id,
+            title: book.title,
+            author: book.author,
+            price: book.price,
+            photopath: book.photopath
+        };
+
+        // Add the item to the cart array
+        setCartItems((prevItems) => [...prevItems, cartItem]);
+        // Show confirmation to user
+        console.log(`Added to cart:`, cartItem);
+        window.alert(`"${book.title}" has been added to your cart!`);
+    };
+
+
     return (
         <div className="bs-books-page">
             <h2>📚 Book List</h2>
+
+              {/* Display the cart */}
+            <Cart items={cartItems}  />
             <div className="bs-books-grid">
                 {
                     books?.length > 0 ? (
                         books.map((b) => (
-                            <BookCard key={b._id} book={b} onAddToCart={() => {}} />
+                            <BookCard key={b._id} book={b} onAddToCart={() => addToCart(b)} />
                         ))
                     ) 
                     : (<p>No books available.</p>)

@@ -17,9 +17,10 @@ const userSchema = new mongoose.Schema(
       required: "Email is required",
     },
 
-  hashed_password: {
-    type: String,
-    required: "Password is required",
+    hashed_password: {
+      type: String,
+      required: "Password is required",
+    },
   },
   { timestamps: true }
 );

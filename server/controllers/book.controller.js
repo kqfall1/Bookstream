@@ -37,7 +37,7 @@ const bookByID = async (req, res, next, id) => {
 
 const list = async (req, res) => {
     try {
-        const books = await Book.find().select("author category description isbn photoPath publisher title yearPublished")
+        const books = await Book.find().select("author category description isbn photoPath publisher price title yearPublished")
         return res.json(books)
     }
     catch (err) {
@@ -79,4 +79,4 @@ const update = async (req, res) => {
     }
 }
 
-export { create, bookByID, list, read, remove, update }
+export default { create, bookByID, list, read, remove, update }

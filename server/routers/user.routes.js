@@ -4,10 +4,10 @@ import userCtrl from "../controllers/user.controller.js";
 
 const router = express.Router();
 
-router.route("/api/users")
+router.route("/")
   .get(userCtrl.list)
   .post(userCtrl.create); 
-router.route("/api/users/:userId")
+router.route("/:userId")
   .get(authCtrl.requireSignin, userCtrl.read)
   .put(authCtrl.requireSignin, authCtrl.hasAuthorization, userCtrl.update)
   .delete(authCtrl.requireSignin, authCtrl.hasAuthorization, userCtrl.remove);

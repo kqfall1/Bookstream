@@ -24,15 +24,15 @@
     }, 
 
     {
-        "author": "Andrew Hunt", 
+        "author": "Robert C. Martin",
         "category": "Software",
-        "description": "A timeless guide to software craftsmanship, offering practical advice for developers at every level.",
-        "isbn": "9780201616224",
-        "photoPath": "/images/pragmatic-programmer.jpg",
-        "price": 49.99,
-        "publisher": "Addison-Wesley",
-        "title": "The Pragmatic Programmer",
-        "yearPublished": 1999
+        "description": "A foundational guide to writing clean, maintainable code, emphasizing principles and professional discipline.",
+        "isbn": "9780132350884",
+        "photoPath": "/images/clean-code.jpg",
+        "price": 54.99,
+        "publisher": "Prentice Hall",
+        "title": "Clean Code",
+        "yearPublished": 2008
     }, 
 
     {

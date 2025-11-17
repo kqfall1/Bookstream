@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 mongoose.Promise = global.Promise;
 mongoose
   .connect(config.mongoUri, {
-    dbName:"Skeleton" //test db
+    dbName:"bookstream" 
   })
   .then(() => {
     console.log("Connected to the database!");

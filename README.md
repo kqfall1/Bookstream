@@ -1,8 +1,9 @@
-To start this web application, run "npm run dev" from the root directory, not "bookstream/client". 
+User account creation, signing in, and signing out are all completely 
+functional processes. Books in the DB now render dynamically on the home page.
+In future sprints, we will expand to allow users to add books to carts and 
+place orders. I appreciate your contributions, team. 
 
-To work on this web application: 
-- Pull from the main branch.
-- Create your own branch. Please name it descriptively, ideally with the date as a part of the name. 
-- Do your work. Remember to commit often, ideally about every 15 minutes. 
-- Push your work somewhat regularly to your current branch, ideally about once per hour. 
-- When ready for review, perform a final push to your current branch and then open a pull request. 
+- Quinn Keenan
+- 10:09PM, 16/11/2025  
+- https://github.com/kqfall1/Bookstream
+- https://www.youtube.com/watch?v=cEbrgxEEQRA

@@ -8,6 +8,14 @@
     color: #fff;
 }
 
+.bs-nav a {
+    text-decoration: underline;
+}
+
+.bs-nav a:hover {
+    cursor: pointer; 
+}
+
 .bs-logo {
     font-weight: 700;
     color: #fff;

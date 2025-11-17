@@ -1,0 +1,49 @@
+[
+    {
+        "author": "George Orwell",
+        "category": "Dystopian",
+        "description": "A chilling portrayal of a totalitarian regime that manipulates truth and controls thought.",
+        "isbn": "9780451524935",
+        "photoPath": "/images/1984.jpg",
+        "publisher": "Secker & Warburg",
+        "price": 20.99, 
+        "title": "1984",
+        "yearPublished": 1949
+    },
+
+    {
+        "author": "Michelle Obama",
+        "category": "Memoir",
+        "description": "An intimate, powerful, and inspiring memoir by the former First Lady of the United States.",
+        "isbn": "9781524763138",
+        "photoPath": "/images/becoming.jpg",
+        "publisher": "Crown Publishing Group",
+        "price": 17.99,
+        "title": "Becoming",
+        "yearPublished": 2018
+    }, 
+
+    {
+        "author": "Robert C. Martin",
+        "category": "Software",
+        "description": "A foundational guide to writing clean, maintainable code, emphasizing principles and professional discipline.",
+        "isbn": "9780132350884",
+        "photoPath": "/images/clean-code.jpg",
+        "price": 54.99,
+        "publisher": "Prentice Hall",
+        "title": "Clean Code",
+        "yearPublished": 2008
+    }, 
+
+    {
+        "author": "Andrew Hunt",
+        "category": "Software",
+        "description": "A timeless guide to software craftsmanship, offering practical advice for developers at every level.",
+        "isbn": "9780201616224",
+        "photoPath": "/images/pragmatic-programmer.jpg",
+        "price": 49.99,
+        "publisher": "Addison-Wesley",
+        "title": "The Pragmatic Programmer",
+        "yearPublished": 1999
+    }
+]

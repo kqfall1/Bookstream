@@ -17,22 +17,9 @@ const userSchema = new mongoose.Schema(
       required: "Email is required",
     },
 
-    created: {
-      type: Date,
-      default: Date.now,
-    },
-    updated: Date,
-
-    hashed_password: {
-      type: String,
-      required: "Password is required",
-    },
-    salt: String,
-
-    role: {
-      type: String,
-      default: "User",
-    },
+  hashed_password: {
+    type: String,
+    required: "Password is required",
   },
   { timestamps: true }
 );

@@ -36,13 +36,7 @@ export default function BooksList() {
         return () => controller.abort();  
     }, [])  
 
-
-    /**
-     * Adds a book to the shopping cart
-     * @param {Object} book - The book object to add to cart
-     */
     const addToCart = (book) => {
-        // Create a cart item with necessary properties
         const cartItem = {
             id: book._id,
             title: book.title,
@@ -53,9 +47,9 @@ export default function BooksList() {
 
         // Add the item to the cart array
         setCartItems((prevItems) => [...prevItems, cartItem]);
-        // Show confirmation to user
-        console.log(`Added to cart:`, cartItem);
-        window.alert(`"${book.title}" has been added to your cart!`);
+
+        //console.log(`Added to cart:`, cartItem);
+        //window.alert(`"${book.title}" has been added to your cart!`);
     };
 
 

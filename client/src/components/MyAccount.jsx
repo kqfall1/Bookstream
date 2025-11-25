@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import auth from '../../lib/auth.helpers.js';
 import { useNavigate } from 'react-router-dom';
-import "../styles/components.css";
+import "../styles/MyAccount.css";
 import profilePhoto from '../assets/profilephoto.jpeg';
 
 export default function MyAccount() {

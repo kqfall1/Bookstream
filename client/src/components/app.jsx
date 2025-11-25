@@ -1,6 +1,6 @@
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
+import Footer from "./Footer"; 
 import NavBar from "./Navbar";
 import BooksList from "./BookList";
 import SignIn from "./SignIn";
@@ -30,9 +30,7 @@ function App() {
           <Route path="/cart" element={<Cart items={[]} />} />
         </Routes>
       </main>
-      <footer>
-        Copyright Bookstream Inc. 2025
-      </footer>
+      <Footer />
 
       {isCartModalOpen && <Cart isModal={true} onClose={closeCartModal} />}
     </Router>

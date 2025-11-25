@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { signOut } from '../../lib/api.auth.js'
 import { useEffect, useState } from 'react';
 import logo from '../assets/bookstream.jpeg';
-import { useCart } from '../lib/cart.context'
+import { useCart } from '../../lib/cart.context.js'
 import "../styles/NavBar.css";
 
 export default function NavBar({ onCartClick }) {

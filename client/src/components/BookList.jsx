@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import BookCard from "./BookCard";
 import "../styles/BookList.css";
 import { list } from "../../lib/api.crud";
-import { useCart } from '../lib/cart.context'
+import { useCart } from '../../lib/cart.context'
 
 export default function BooksList({ showFilters = true }) {
     const [books, setBooks] = useState([]);

@@ -2,7 +2,8 @@ import auth from '../../lib/auth.helpers.js'
 import { signIn } from '../../lib/api.auth.js'
 import { useNavigate, Link } from 'react-router-dom'
 import { useState } from "react";
-import "../styles/components.css";
+import "../styles/Form.css";
+import "../styles/UserAccountForm.css";
 
 const INITAL_STATE = {
     email: '',

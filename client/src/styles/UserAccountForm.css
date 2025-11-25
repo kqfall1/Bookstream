@@ -1,0 +1,56 @@
+.bs-form-centered {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 48px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+}
+
+.bs-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 20px;
+}
+
+.bs-form-grid .bs-form-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.bs-hero-cta {
+    display: inline-block;
+    margin: 20px auto 0;
+    padding: 14px 32px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.bs-hero-cta.primary {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: var(--shadow-md);
+}
+
+.bs-hero-cta.primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.bs-empty-hero {
+    background: #efefef;
+    padding: 26px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.bs-empty-hero p {
+    margin: 16px 0;
+}

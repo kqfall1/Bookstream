@@ -1,10 +1,9 @@
-/* Global styles for Bookstream UI */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;700&family=Playfair+Display:wght@400;700&display=swap');
 
 :root {
     --bg: #ffffff;
     --bg-secondary: #f8f9fa;
-    --primary: #6366f1;
+    --primary: #6366f1;     
     --primary-hover: #4f46e5;
     --secondary: #ec4899;
     --accent: #8b5cf6;
@@ -17,9 +16,7 @@
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
-html,
-body,
-#root {
+html, body, #root {
     height: 100%;
 }
 
@@ -37,7 +34,10 @@ body {
 #root {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 1400px;
     min-height: 100vh;
+    margin: 0 auto;
 }
 
 main {
@@ -47,20 +47,16 @@ main {
     width: 100%;
 }
 
-/* utility */
 .container {
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 16px;
 }
 
-h1,
-h2,
-h3 {
+h1, h2, h3 {
     font-family: 'Playfair Display', Georgia, serif;
 }
 
-/* footer */
 footer {
     text-align: center;
     padding: 20px 16px;
@@ -68,4 +64,25 @@ footer {
     color: #ccc;
     font-size: 0.9rem;
     margin-top: auto;
+}
+
+.bs-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    transition: all 0.2s ease;
+    padding: 8px 14px;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+.bs-link:hover {
+    color: var(--primary);
+    background: var(--bg-secondary);
+}
+
+.bs-link-clickable {
+    cursor: pointer;
 }

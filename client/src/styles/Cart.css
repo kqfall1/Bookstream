@@ -1,0 +1,173 @@
+.bs-aside-cart {
+    width: 340px;
+}
+
+.bs-cart {
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+}
+
+.bs-cart-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.bs-cart-modal {
+    background: #fff;
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 450px;
+    max-width: 90vw;
+    padding: 32px;
+    overflow-y: auto;
+    box-shadow: var(--shadow-xl);
+    animation: slideInRight 0.3s ease;
+    z-index: 1001;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.bs-cart-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.bs-cart-modal-header h2 {
+    margin: 0;
+    font-size: 1.75rem;
+    color: var(--text-primary);
+}
+
+.bs-cart-close {
+    background: var(--bg-secondary);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.bs-cart-close:hover {
+    background: var(--border);
+    color: var(--text-primary);
+    transform: rotate(90deg);
+}
+
+.bs-cart h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+.bs-cart-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.bs-cart-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    align-items: center;
+    padding: 12px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.bs-cart-item:hover {
+    box-shadow: var(--shadow-sm);
+}
+
+.bs-thumb {
+    width: 50px;
+    height: 70px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow-sm);
+}
+
+.bs-remove {
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.bs-remove:hover {
+    background: #dc2626;
+    transform: scale(1.05);
+}
+
+.bs-cart-total {
+    font-weight: 700;
+    margin-top: 16px;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    padding: 16px;
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    text-align: center;
+}
+
+@media (max-width: 900px) {
+    .bs-books-page {
+        grid-template-columns: 1fr;
+    }
+
+    .bs-aside-cart {
+        width: 100%;
+    }
+
+    .bs-nav {
+        padding: 12px 16px;
+    }
+
+    .bs-title {
+        font-size: 1.6rem;
+    }
+}

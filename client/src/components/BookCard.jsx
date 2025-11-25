@@ -1,4 +1,4 @@
-import "../styles/components.css";
+import "../styles/BookList.css";
 import { Link } from 'react-router-dom';
 
 const PLACEHOLDER = 'https://via.placeholder.com/140x200?text=No+Cover';

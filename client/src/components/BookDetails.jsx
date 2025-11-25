@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { read } from '../../lib/api.crud';
-import { useCart } from '../lib/cart.context';
-import '../styles/components.css';
+import { useCart } from '../../lib/cart.context';
+import '../styles/BookList.css';
 
 export default function BookDetails() {
     const { id } = useParams();

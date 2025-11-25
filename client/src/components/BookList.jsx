@@ -36,6 +36,7 @@ export default function BooksList() {
         return () => controller.abort();  
     }, [])  
 
+    // Function to handle adding a book to the cart (will keep here for now, until schmas done)
     const addToCart = (book) => {
         const cartItem = {
             id: book._id,
@@ -49,15 +50,12 @@ export default function BooksList() {
         setCartItems((prevItems) => [...prevItems, cartItem]);
 
         //console.log(`Added to cart:`, cartItem);
-        //window.alert(`"${book.title}" has been added to your cart!`);
     };
-
 
     return (
         <div className="bs-books-page">
             <h2>📚 Book List</h2>
 
-              {/* Display the cart */}
             <Cart items={cartItems}  />
             <div className="bs-books-grid">
                 {

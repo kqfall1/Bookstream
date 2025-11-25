@@ -2,9 +2,9 @@ import auth from '../../lib/auth.helpers.js'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { signOut } from '../../lib/api.auth.js'
 import { useEffect, useState } from 'react';
-import "../styles/components.css";
 import logo from '../assets/bookstream.jpeg';
 import { useCart } from '../lib/cart.context'
+import "../styles/NavBar.css";
 
 export default function NavBar({ onCartClick }) {
     const location = useLocation();
@@ -25,10 +25,8 @@ export default function NavBar({ onCartClick }) {
                     </div>
                     <Link to="/" className="bs-title">Bookstream</Link>
                 </div>
-                <div className="bs-nav-center">
-                    <Link to="/browse" className="bs-link">Browse</Link>
-                </div>
                 <div className="bs-nav-right">
+                    <Link to="/browse" className="bs-link">Browse</Link>
                     {/* Always show My Account. If user is not signed in, take them to Sign In page */}
                     <Link to={session ? "/account" : "/signin"} className="bs-link">My Account</Link>
 

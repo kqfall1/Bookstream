@@ -1,7 +1,8 @@
 import { create } from '../../lib/api.crud.js';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
-import "../styles/components.css";
+import "../styles/Form.css";
+import "../styles/UserAccountForm.css";
 
 const INITIAL_STATE = {
     email: '',

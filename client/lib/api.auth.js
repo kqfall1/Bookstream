@@ -24,6 +24,8 @@ const signIn = async (credentials) => {
 
         if (res.ok && typeof data?.token === 'string') {
             auth.authenticate(data.token)
+            // persist the user object as well for client-side profile access
+            if (data.user) auth.setUser(data.user)
         }
 
         console.log(data)
@@ -31,7 +33,7 @@ const signIn = async (credentials) => {
     }
     catch (err) {
         return handleError(err);
-    } 
+    }
 }
 
 /**
@@ -42,7 +44,7 @@ const signIn = async (credentials) => {
 const signOut = async () => {
     if (auth.isAuthenticated()) {
         try {
-            const res = await fetch(`/api/auth/signout`, {method: 'GET'}) 
+            const res = await fetch(`/api/auth/signout`, { method: 'GET' })
 
             //console.log(res)
             const data = await handleResponse(res)
@@ -54,11 +56,11 @@ const signOut = async () => {
 
             //console.log(data)
             return data
-        } 
+        }
         catch (err) {
             return handleError(err);
         }
     }
-}     
+}
 
 export { signIn, signOut }

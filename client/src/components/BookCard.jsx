@@ -25,13 +25,6 @@ export default function BookCard({ book, onAddToCart = () => { } }) {
             <div className="bs-bottom">
                 <button className="bs-btn" onClick={() => onAddToCart(book)}>Add to Cart</button>
             </div>
-        </div>
-        <div className="bs-bottom">
-          <button className="bs-btn" onClick={onAddToCart}>
-            Add to Cart
-          </button>
-        </div>
-      </div>
-    </div>
+        </div>     
   );
 }

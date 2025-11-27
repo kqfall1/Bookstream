@@ -3,15 +3,10 @@ import auth from "./auth.helpers.js";
 
 const CartContext = createContext(null);
 
-const getAuthToken = () => {
-  const jwt = auth.isAuthenticated();
-  //console.log("GETTING JWTT:", jwt);
-  return jwt ? jwt : null;
-};
-
 // Helper function for API calls
 const callApi = async (method, endpoint, body) => {
-  const token = getAuthToken();
+  const token = auth.isAuthenticated();
+  //console.log("GETTING JWTT:", jwt);
 
   // Check if a token is available before making authenticated requests
   if (!token && endpoint !== "/checkout") {
@@ -56,7 +51,7 @@ export function CartProvider({ children }) {
   const [error, setError] = useState(null);
 
   const fetchCart = async () => {
-    const token = getAuthToken();
+    const token = auth.isAuthenticated();
     if (!token) {
       // User is not signed in. Set empty cart and stop loading.
       setCart({ items: [], totalPrice: 0 });
@@ -67,7 +62,7 @@ export function CartProvider({ children }) {
     setIsLoading(true);
     setError(null);
     try {
-        //get user's cart and set it
+      //get user's cart and set it
       const data = await callApi("GET", "");
       setCart(data);
     } catch (e) {
@@ -83,14 +78,14 @@ export function CartProvider({ children }) {
     }
   };
 
-  // Reload cart whenever the authentication token state might change
+  // Reload cart whenever the authentication token state might change (login or signout)
   useEffect(() => {
     fetchCart();
-  }, [auth.isAuthenticated()]); // Dependency on auth state change (using your helper for status)
+  }, [auth.isAuthenticated()]);
 
   const addItem = async (bookId, quantity = 1) => {
     setError(null);
-    if (!getAuthToken()) {
+    if (!auth.isAuthenticated()) {
       setError("You must be logged in to add items to the cart.");
       return;
     }
@@ -106,7 +101,7 @@ export function CartProvider({ children }) {
 
   const removeItem = async (bookId) => {
     setError(null);
-    if (!getAuthToken()) {
+    if (!auth.isAuthenticated()) {
       setError("You must be logged in to remove items from the cart.");
       return;
     }
@@ -123,7 +118,7 @@ export function CartProvider({ children }) {
 
   const clearCart = async () => {
     setError(null);
-    if (!getAuthToken()) {
+    if (!auth.isAuthenticated()) {
       setError("You must be logged in to clear the cart.");
       return;
     }
@@ -139,7 +134,7 @@ export function CartProvider({ children }) {
 
   const checkout = async () => {
     setError(null);
-    if (!getAuthToken()) {
+    if (!auth.isAuthenticated()) {
       // Throw error to stop checkout process if not logged in
       throw new Error("Authentication required to proceed to checkout.");
     }
@@ -167,10 +162,10 @@ export function CartProvider({ children }) {
     clearCart,
     checkout,
     // Expose a flag to indicate if cart is ready and user is authenticated
-    isReady: !isLoading && !!getAuthToken(),
+    isReady: !isLoading && !!auth.isAuthenticated(),
   };
 
-  if (isLoading && getAuthToken()) {
+  if (isLoading && auth.isAuthenticated()) {
     // Only show loading spinner if we are authenticated and trying to fetch the cart
     return React.createElement("div", { className: "p-4 text-center" }, "Loading cart...");
   }

@@ -64,7 +64,9 @@ const removeItem = async (req, res) => {
   try {
     const { bookId } = req.body;
     const cart = await Cart.findOne({ user: req.auth._id });
-    if (!cart) return res.status(404).json({ error: "Cart not found" });
+    if (!cart) {
+      return res.status(404).json({ error: "Cart not found" });
+    }
 
     cart.items = cart.items.filter((item) => !item.book.equals(bookId));
     await cart.save();
@@ -78,7 +80,9 @@ const removeItem = async (req, res) => {
 const clearCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.auth._id });
-    if (!cart) return res.status(404).json({ error: "Cart not found" });
+    if (!cart) {
+      return res.status(404).json({ error: "Cart not found" });
+    }
 
     cart.items = [];
     await cart.save();
@@ -91,8 +95,9 @@ const clearCart = async (req, res) => {
 const checkout = async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.auth._id });
-    if (!cart) return res.status(404).json({ error: "Cart not found" });
-
+    if (!cart) {
+      return res.status(404).json({ error: "Cart not found" });
+    }
     cart.status = "checked_out";
     await cart.save();
     return res.json({ message: "Checkout successful", cart });

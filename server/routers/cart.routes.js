@@ -15,5 +15,6 @@ router.route('/clear')
     .post(authCtrl.requireSignin, cartCtrl.clearCart)    
 
 router.route('/checkout')
-    .post(authCtrl.requireSignin, cartCtrl.checkout)     
+    .post(authCtrl.requireSignin, cartCtrl.checkout)   
+     
 export default router

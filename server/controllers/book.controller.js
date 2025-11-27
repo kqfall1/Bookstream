@@ -36,6 +36,7 @@ const bookByID = async (req, res, next, id) => {
 }
 
 const list = async (req, res) => {
+    // console.log("Getting BOOOOKS for user:", res);
     try {
         const books = await Book.find().select("author category description isbn photoPath publisher price title yearPublished")
         return res.json(books)

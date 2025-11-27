@@ -8,7 +8,7 @@ export default function BooksList({ showFilters = true }) {
     const [books, setBooks] = useState([]);
     const [search, setSearch] = useState('');
     const [activeCategory, setActiveCategory] = useState('');
-    const { items: cart, add, remove } = useCart();
+    const { items: cart, addItem } = useCart();
 
     useEffect(() => {
         const controller = new AbortController();
@@ -85,7 +85,7 @@ export default function BooksList({ showFilters = true }) {
                 {
                     filtered?.length > 0 ? (
                         filtered.map((b) => (
-                            <BookCard key={b._id || b.id} book={b} onAddToCart={add} />
+                            <BookCard key={b._id || b.id} book={b} onAddToCart={addItem} />
                         ))
                     )
                         : (<p>No books available.</p>)

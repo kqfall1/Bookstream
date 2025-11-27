@@ -9,6 +9,8 @@ import mongoose from "mongoose";
 import userRoute from "./routers/user.routes.js";
 import bookRoute from "./routers/book.routes.js"; 
 import authRoutes from "./routers/auth.routes.js";
+import cartRoute from "./routers/cart.routes.js";   
+
 
 const app = express();
 app.use(bodyParser.json());
@@ -21,6 +23,7 @@ app.use("/src", assetRouter);
 app.use("/api/users", userRoute);
 app.use('/api/books', bookRoute)
 app.use("/api/auth", authRoutes);
+app.use("/api/carts", cartRoute);   
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
     res.status(401).json({ error: err.name + ": " + err.message });

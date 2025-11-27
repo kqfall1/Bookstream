@@ -3,7 +3,7 @@ import "../styles/Cart.css";
 import { useCart } from '../../lib/cart.context.js'
 
 export default function Cart({ isModal = false, onClose }) {
-    const { items, remove, clear } = useCart()
+    const { items, removeItem, clearCart } = useCart()
     const total = items.reduce((s, it) => s + (it.price || 0), 0);
 
     const cartContent = (
@@ -26,21 +26,22 @@ export default function Cart({ isModal = false, onClose }) {
             ) : (
                 <>
                     <ul className="bs-cart-list">
-                        {items.map((it, idx) => (
-                            <li key={idx} className="bs-cart-item">
-                                <img src={it.img || it.photoPath} alt={it.title} className="bs-thumb" />
+                        {items.map((it) => (
+                            <li key={it._id} className="bs-cart-item">
+                                <img src={it.book.img || it.book.photoPath} alt={it.book.title} className="bs-thumb" />
                                 <div style={{ flex: 1 }}>
-                                    <div className="bs-book-title">{it.title}</div>
-                                    <div className="bs-book-author">{it.author}</div>
+                                    <div className="bs-book-title">{it.book.title}</div>
+                                    <div className="bs-book-author">{it.book.author}</div>
                                     <div className="bs-book-price">${(it.price || 0).toFixed(2)}</div>
                                 </div>
-                                <button className="bs-remove" onClick={() => remove(idx)}>Remove</button>
+                                <button className="bs-remove" onClick={() => removeItem(it.book._id)}>Remove</button>
                             </li>
                         ))}
                     </ul>
+                    <div className="bs-cart-total">Total Items: {items.length}</div>
                     <div className="bs-cart-total">Total: ${total.toFixed(2)}</div>
                     <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
-                        <button className="bs-btn" onClick={() => clear()}>Clear</button>
+                        <button className="bs-btn" onClick={() => clearCart()}>Clear</button>
                         <Link to="/checkout" className="bs-hero-cta">Checkout</Link>
                     </div>
                 </>

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+//item in cart
 const cartItemSchema = new mongoose.Schema(
   {
     book: {
@@ -20,12 +21,14 @@ const cartItemSchema = new mongoose.Schema(
   { _id: false }
 );
 
+//actual cart object
 const cartSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      unique:true
     },
     items: [cartItemSchema],
     status: {
@@ -41,6 +44,13 @@ const cartSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+
+cartSchema.virtual("itemCount").get(function (password) {
+    return this.items.length;    
+  });
+
+
+//function to get price
 cartSchema.pre("save", function (next) {
   this.totalPrice = this.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   next();

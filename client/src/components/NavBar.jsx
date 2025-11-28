@@ -43,9 +43,11 @@ export default function NavBar({ onCartClick }) {
                         </>
                     )}
 
-                    <button onClick={onCartClick} className="bs-link bs-link-clickable" style={{ background: 'none', border: 'none', font: 'inherit', cursor: 'pointer', fontWeight: 'bold' }}>
-                        Cart {items?.length > 0 && <span className="bs-cart-count">{items.length}</span>}
-                    </button>
+                    {session && (
+                        <button onClick={onCartClick} className="bs-link bs-link-clickable" style={{ background: 'none', border: 'none', font: 'inherit', cursor: 'pointer', fontWeight: 'bold' }}>
+                            Cart {items?.length > 0 && <span className="bs-cart-count">{items.length}</span>}
+                        </button>
+                    )}
                 </div>
             </div>
         </nav>

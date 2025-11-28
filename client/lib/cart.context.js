@@ -86,7 +86,7 @@ export function CartProvider({ children }) {
   const addItem = async (bookId, quantity = 1) => {
     setError(null);
     if (!auth.isAuthenticated()) {
-      setError("You must be logged in to add items to the cart.");
+      alert("You must be logged in to add items to the cart.");
       return;
     }
 

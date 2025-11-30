@@ -132,19 +132,34 @@ export function CartProvider({ children }) {
     }
   };
 
-  const checkout = async () => {
+  const checkout = async (shippingAddress) => {
     setError(null);
     if (!auth.isAuthenticated()) {
-      // Throw error to stop checkout process if not logged in
       throw new Error("Authentication required to proceed to checkout.");
     }
 
     try {
-      // POST /api/cart/checkout
-      const result = await callApi("POST", "/checkout");
-      // The cart status is now 'checked_out'. Update local state to reflect empty cart.
-      setCart(result.cart);
-      return result;
+      const token = auth.isAuthenticated();
+
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ shippingAddress }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Checkout failed");
+      }
+
+      const newOrder = await response.json();
+
+      setCart({ items: [], totalPrice: 0 });
+
+      return newOrder;
     } catch (e) {
       setError(e.message);
       throw e;

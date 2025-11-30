@@ -21,8 +21,8 @@ export default function Checkout() {
   const handlePlaceOrder = async () => {
     try {
       await checkout(address);
-      // Redirect to a success page or order history
-      navigate("/order-success"); 
+      // Redirect to a success page or order history or home or something
+      navigate("/"); 
     } catch (err) {
       setError(err.message);
     }

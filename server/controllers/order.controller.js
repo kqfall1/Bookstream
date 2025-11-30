@@ -17,7 +17,10 @@ const create = async (req, res) => {
       price: item.price,
     }));
 
-    const totalAmount = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    // --- Backend Tax Calculation ---
+    const subtotal = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const tax = subtotal * 0.13; // 13% tax
+    const totalAmount = subtotal + tax;
 
     const order = new Order({
       user: req.auth._id,

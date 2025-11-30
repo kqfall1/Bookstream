@@ -1,34 +1,202 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from "react";
+import auth from "./auth.helpers.js";
 
-const CartContext = createContext(null)
+const CartContext = createContext(null);
 
+/**
+ * Helper function for cart-related API calls. 
+ * @param method A String corresponding to an HTTP method. 
+ * @param endpoint The cart API endpoint. Must include an inital slash. 
+ * @param The optional body of the HTTP request. 
+ */ 
+const callApi = async (method, endpoint, body) => {
+  const token = auth.isAuthenticated();
+  //console.log("GETTING JWTT:", jwt);
+
+  if (!token) {
+    throw new Error("Authentication required for cart operations.");
+  }
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+
+  const response = await fetch(`/api/carts${endpoint}`, {
+    method,
+    headers,
+    body: body ? JSON.stringify(body) : undefined,
+  });
+
+  if (!response.ok) {
+    try {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.error || `API call failed: ${response.statusText} (${response.status})`
+      );
+    } catch (e) {
+      throw new Error(`API call failed: ${response.statusText} (${response.status})`);
+    }
+  }
+
+  // Special handling for routes that return no content (like clear or signout)
+  if (response.status === 204 || response.statusText === "No Content") {
+    return null;
+  }
+
+  return response.json();
+};
+
+/**
+ * React context provider that exposes cart state and actions to its children via useCart().
+ */ 
 export function CartProvider({ children }) {
-    const [items, setItems] = useState(() => {
-        try {
-            const raw = localStorage.getItem('bs_cart')
-            return raw ? JSON.parse(raw) : []
-        } catch (e) {
-            return []
-        }
-    })
+  // The cart object from the database (includes: { _id, userId, items: [...], totalPrice, ... })
+  const [cart, setCart] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        try { localStorage.setItem('bs_cart', JSON.stringify(items)) } catch (e) { }
-    }, [items])
+  const fetchCart = async () => {
+    const token = auth.isAuthenticated();
+    if (!token) {
+      setCart({ items: [], totalPrice: 0 });
+      setIsLoading(false);
+      return;
+    }
 
-    const add = (book) => setItems((s) => [...s, book])
-    const remove = (index) => setItems((s) => s.filter((_, i) => i !== index))
-    const clear = () => setItems([])
+    setIsLoading(true);
+    setError(null);
+    try {
+      const data = await callApi("GET", "");
+      setCart(data);
+    } catch (e) {
+      // This catch block handles errors or auth expiration.
+      if (e.message.includes("Authentication required")) {
+        setCart({ items: [], totalPrice: 0 });
+      } else {
+        setError(e.message);
+        setCart({ items: [], totalPrice: 0 });
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    return React.createElement(
-        CartContext.Provider,
-        { value: { items, add, remove, clear } },
-        children
-    )
+  // Reload cart whenever the authentication token state might change (login or signout)
+  useEffect(() => {
+    fetchCart();
+  }, [auth.isAuthenticated()]);
+
+  const addItem = async (bookId, quantity = 1) => {
+    setError(null);
+    if (!auth.isAuthenticated()) {
+      alert("You must be logged in to add items to the cart.");
+      return;
+    }
+
+    try {
+      const updatedCart = await callApi("POST", "/item", { bookId, quantity });
+      setCart(updatedCart);
+    } catch (e) {
+      setError(e.message);
+    }
+  };
+
+  const removeItem = async (bookId) => {
+    setError(null);
+    if (!auth.isAuthenticated()) {
+      setError("You must be logged in to remove items from the cart.");
+      return;
+    }
+
+    try {
+      // backend cart.routes.js uses DELETE /api/cart/item with bookId in the body
+      const updatedCart = await callApi("DELETE", "/item", { bookId });
+      setCart(updatedCart);
+    } catch (e) {
+      setError(e.message);
+    }
+  };
+
+  const clearCart = async () => {
+    setError(null);
+    if (!auth.isAuthenticated()) {
+      setError("You must be logged in to clear the cart.");
+      return;
+    }
+
+    try {
+      // POST /api/cart/clear
+      await callApi("POST", "/clear");
+      setCart((prev) => ({ ...prev, items: [], totalPrice: 0 }));
+    } catch (e) {
+      setError(e.message);
+    }
+  };
+
+  const checkout = async (shippingAddress) => {
+    setError(null);
+    if (!auth.isAuthenticated()) {
+      throw new Error("Authentication required to proceed to checkout.");
+    }
+
+    try {
+      const token = auth.isAuthenticated();
+
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ shippingAddress }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Checkout failed");
+      }
+
+      const newOrder = await response.json();
+
+      setCart({ items: [], totalPrice: 0 });
+
+      return newOrder;
+    } catch (e) {
+      setError(e.message);
+      throw e;
+    }
+  };
+
+  /**
+   * An object that bundles cart-related data and behaviors to be passed into CartProvider components as the value attribute. 
+   */ 
+  const value = {
+    cart: cart,
+    items: cart?.items || [],
+    totalPrice: cart?.totalPrice || 0,
+    isLoading,
+    error,
+    addItem,
+    removeItem,
+    clearCart,
+    checkout,
+    // Expose a flag to indicate if cart is ready and user is authenticated
+    isReady: !isLoading && !!auth.isAuthenticated(),
+  };
+
+  return (
+    <CartContext.Provider value={value}>
+      {isLoading && auth.isAuthenticated() ? (
+        <div className="p-4 text-center">Loading cart...</div>
+      ) 
+      : (children)} 
+    </CartContext.Provider> 
+  );
 }
 
 export const useCart = () => {
-    const ctx = useContext(CartContext)
-    if (!ctx) throw new Error('useCart must be used within CartProvider')
-    return ctx
-}
+  const ctx = useContext(CartContext);
+  if (!ctx) throw new Error("useCart must be used within CartProvider");
+  return ctx;
+};

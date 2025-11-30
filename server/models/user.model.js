@@ -1,29 +1,33 @@
 import mongoose from "mongoose";
 import crypto from "crypto";
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    trim: true,
-    required: "Name is required",
-  },
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      trim: true,
+      required: "Name is required",
+    },
 
-  email: {
-    type: String,
-    trim: true,
-    unique: "Email already exists",
-    match: [/.+\@.+\..+/, "Please fill a valid email address"],
-    required: "Email is required",
-  },
+    email: {
+      type: String,
+      trim: true,
+      unique: "Email already exists",
+      match: [/.+\@.+\..+/, "Please fill a valid email address"],
+      required: "Email is required",
+    },
 
-  hashed_password: {
-    type: String,
-    required: "Password is required",
+    hashed_password: {
+      type: String,
+      required: "Password is required",
+    },
+    salt: String,
   },
-  salt: String,
-}, { timestamps: true });
+  { timestamps: true }
+);
 
-userSchema.virtual("password")
+userSchema
+  .virtual("password")
   .set(function (password) {
     this._password = password;
     this.salt = this.makeSalt();

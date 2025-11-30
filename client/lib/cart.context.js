@@ -3,17 +3,20 @@ import auth from "./auth.helpers.js";
 
 const CartContext = createContext(null);
 
-// Helper function for API calls
+/**
+ * Helper function for cart-related API calls. 
+ * @param method A String corresponding to an HTTP method. 
+ * @param endpoint The cart API endpoint. Must include an inital slash. 
+ * @param The optional body of the HTTP request. 
+ */ 
 const callApi = async (method, endpoint, body) => {
   const token = auth.isAuthenticated();
   //console.log("GETTING JWTT:", jwt);
 
-  // Check if a token is available before making authenticated requests
-  if (!token && endpoint !== "/checkout") {
+  if (!token) {
     throw new Error("Authentication required for cart operations.");
   }
 
-  // send header with auth
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
@@ -44,6 +47,9 @@ const callApi = async (method, endpoint, body) => {
   return response.json();
 };
 
+/**
+ * React context provider that exposes cart state and actions to its children via useCart().
+ */ 
 export function CartProvider({ children }) {
   // The cart object from the database (includes: { _id, userId, items: [...], totalPrice, ... })
   const [cart, setCart] = useState(null);
@@ -53,7 +59,6 @@ export function CartProvider({ children }) {
   const fetchCart = async () => {
     const token = auth.isAuthenticated();
     if (!token) {
-      // User is not signed in. Set empty cart and stop loading.
       setCart({ items: [], totalPrice: 0 });
       setIsLoading(false);
       return;
@@ -62,7 +67,6 @@ export function CartProvider({ children }) {
     setIsLoading(true);
     setError(null);
     try {
-      //get user's cart and set it
       const data = await callApi("GET", "");
       setCart(data);
     } catch (e) {
@@ -91,7 +95,6 @@ export function CartProvider({ children }) {
     }
 
     try {
-      // POST /api/cart/item with { bookId, quantity }
       const updatedCart = await callApi("POST", "/item", { bookId, quantity });
       setCart(updatedCart);
     } catch (e) {
@@ -107,7 +110,6 @@ export function CartProvider({ children }) {
     }
 
     try {
-      // DELETE /api/cart/item with { bookId } in the body
       // backend cart.routes.js uses DELETE /api/cart/item with bookId in the body
       const updatedCart = await callApi("DELETE", "/item", { bookId });
       setCart(updatedCart);
@@ -126,7 +128,7 @@ export function CartProvider({ children }) {
     try {
       // POST /api/cart/clear
       await callApi("POST", "/clear");
-      setCart((prev) => ({ ...prev, items: [], totalPrice: 0 })); // Update local state immediately
+      setCart((prev) => ({ ...prev, items: [], totalPrice: 0 }));
     } catch (e) {
       setError(e.message);
     }
@@ -166,6 +168,9 @@ export function CartProvider({ children }) {
     }
   };
 
+  /**
+   * An object that bundles cart-related data and behaviors to be passed into CartProvider components as the value attribute. 
+   */ 
   const value = {
     cart: cart,
     items: cart?.items || [],
@@ -180,12 +185,14 @@ export function CartProvider({ children }) {
     isReady: !isLoading && !!auth.isAuthenticated(),
   };
 
-  if (isLoading && auth.isAuthenticated()) {
-    // Only show loading spinner if we are authenticated and trying to fetch the cart
-    return React.createElement("div", { className: "p-4 text-center" }, "Loading cart...");
-  }
-
-  return React.createElement(CartContext.Provider, { value: value }, children);
+  return (
+    <CartContext.Provider value={value}>
+      {isLoading && auth.isAuthenticated() ? (
+        <div className="p-4 text-center">Loading cart...</div>
+      ) 
+      : (children)} 
+    </CartContext.Provider> 
+  );
 }
 
 export const useCart = () => {

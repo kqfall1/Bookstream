@@ -11,7 +11,7 @@ const CartContext = createContext(null);
  */ 
 const callApi = async (method, endpoint, body) => {
   const token = auth.isAuthenticated();
-  //console.log("GETTING JWTT:", jwt);
+  //console.log("GETTING JWT:", jwt);
 
   if (!token) {
     throw new Error("Authentication required for cart operations.");
@@ -195,6 +195,10 @@ export function CartProvider({ children }) {
   );
 }
 
+/**
+ * Custom hook that is called by the children of CartContext components to read cart data. 
+ * @returns Cart data if the CartContext has been updated by the user. 
+ */
 export const useCart = () => {
   const ctx = useContext(CartContext);
   if (!ctx) throw new Error("useCart must be used within CartProvider");

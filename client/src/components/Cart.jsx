@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import "../styles/Cart.css";
-import { useCart } from '../../lib/cart.context.js'
+import { useCart } from '../../lib/cart.context.jsx'
 import Checkout from './Checkout.jsx';
 
 export default function Cart({ isModal = false, onClose }) {

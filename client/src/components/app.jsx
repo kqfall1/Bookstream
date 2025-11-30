@@ -8,6 +8,7 @@ import CreateAccount from "./CreateAccount";
 import MyAccount from "./MyAccount";
 import BookDetails from "./BookDetails";
 import Cart from "./Cart";
+import Checkout from "./Checkout";
 
 
 function App() {
@@ -28,6 +29,8 @@ function App() {
           <Route path="/account" element={<MyAccount />} />
           <Route path="/books/:id" element={<BookDetails />} />
           <Route path="/cart" element={<Cart items={[]} />} />
+          <Route path="/checkout" element={<Checkout />} />
+
         </Routes>
       </main>
       <Footer />

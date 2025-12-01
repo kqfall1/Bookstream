@@ -1,3 +1,4 @@
+import { normalizeBook } from '../../lib/helpers.js'
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { read } from '../../lib/api.crud';
@@ -16,14 +17,10 @@ export default function BookDetails() {
 
         async function fetchBook() {
             try {
-                const data = await read(`/api/books/${id}`, controller.signal);
+                const data = await read(`/api/books/`, null, id, controller.signal);
                 if (!mounted) return;
                 if (data) {
-                    const normalized = {
-                        ...data,
-                        id: data._id || data.id,
-                        img: data.photoPath || data.img || `https://via.placeholder.com/280x400?text=${encodeURIComponent(data.title || 'Cover')}`
-                    };
+                    const normalized = await normalizeBook(data)
                     setBook(normalized);
                 } else {
                     setBook({ title: 'Book not found' });

@@ -1,5 +1,5 @@
 import BookCard from "./BookCard";
-import { fetchCoverUri } from "../../lib/helpers.js"
+import { fetchCoverUri, normalizeBook } from "../../lib/helpers.js"
 import { list } from "../../lib/api.crud";
 import { useCart } from '../../lib/cart.context'
 import { useState, useEffect } from "react";
@@ -22,15 +22,7 @@ export default function BooksList({ showFilters = true }) {
                     window.alert("Failed to fetch books!");
                 } 
                 else {
-                    // Normalize API books
-                    const apiBooks = await Promise.all(
-                        data.map(async (book) => ({
-                            ...book,
-                            id: book._id || book.id,
-                            img: (await fetchCoverUri(book.isbn)) || book.photoPath,
-                        }))
-                    );
-
+                    const apiBooks = await Promise.all(data.map(normalizeBook));
                     setBooks(apiBooks);
                 }
             }

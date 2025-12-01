@@ -1,15 +1,13 @@
-import "../styles/BookList.css";
 import { Link } from 'react-router-dom';
 
 const PLACEHOLDER = "/assets/bookCoverPlaceholder.jpg";
 
 export default function BookCard({ book, onAddToCart = () => { } }) {
     const src = book.img || book.photoPath || PLACEHOLDER;
-    //console.log(`Book image source: ${src}`)
 
     return (
         <div className="bs-book-card">
-            <Link to={`/books/${book.id || book._id}`} className="bs-book-link" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Link to={`/books/${book._id}`} className="bs-book-link" style={{ textDecoration: 'none', color: 'inherit' }}>
                 <img
                     src={src}
                     alt={book.title}

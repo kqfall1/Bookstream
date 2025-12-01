@@ -65,6 +65,7 @@ const list = async (apiRoute, signal) => {
  */
 const read = async (apiRoute, credentials, id, signal) => {
     const headers = determineHeaders(credentials)
+    //console.log("Calling API:", `${apiRoute}${id}`);
     
     try {
         const res = await fetch(`${apiRoute}${id}`, {

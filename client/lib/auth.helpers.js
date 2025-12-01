@@ -23,7 +23,7 @@ const auth = {
     /**
      * Determines if a user is authenticated by checking for a JWT token in their 
      * browser's local storage.
-     * @returns True if the user is authenticated, false otherwise.
+     * @returns The JWT if the user is authenticated and false otherwise.
      */
     isAuthenticated() {
         const jwt = localStorage.getItem('jwt')

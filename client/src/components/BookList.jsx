@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
 import BookCard from "./BookCard";
-import "../styles/BookList.css";
+import { fetchCoverUri } from "../../lib/helpers.js"
 import { list } from "../../lib/api.crud";
 import { useCart } from '../../lib/cart.context'
+import { useState, useEffect } from "react";
+import "../styles/BookList.css";
 
 export default function BooksList({ showFilters = true }) {
     const [books, setBooks] = useState([]);
@@ -22,11 +23,14 @@ export default function BooksList({ showFilters = true }) {
                 } 
                 else {
                     // Normalize API books
-                    const apiBooks = data.map(book => ({
-                        ...book,
-                        id: book._id || book.id,
-                        img: book.photoPath || book.img || 'https://via.placeholder.com/140x200/9fc6e3/ffffff?text=' + encodeURIComponent(book.title)
-                    }));
+                    const apiBooks = await Promise.all(
+                        data.map(async (book) => ({
+                            ...book,
+                            id: book._id || book.id,
+                            img: (await fetchCoverUri(book.isbn)) || book.photoPath,
+                        }))
+                    );
+
                     setBooks(apiBooks);
                 }
             }

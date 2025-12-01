@@ -1,10 +1,11 @@
 import "../styles/BookList.css";
 import { Link } from 'react-router-dom';
 
-const PLACEHOLDER = 'https://via.placeholder.com/140x200?text=No+Cover';
+const PLACEHOLDER = "/assets/bookCoverPlaceholder.jpg";
 
 export default function BookCard({ book, onAddToCart = () => { } }) {
-    const src = book.photoPath || book.img || PLACEHOLDER;
+    const src = book.img || book.photoPath || PLACEHOLDER;
+    //console.log(`Book image source: ${src}`)
 
     return (
         <div className="bs-book-card">

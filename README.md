@@ -1,9 +1,9 @@
-User account creation, signing in, and signing out are all completely 
-functional processes. Books in the DB now render dynamically on the home page.
-In future sprints, we will expand to allow users to add books to carts and 
-place orders. I appreciate your contributions, team. 
+Authenticated users can now add items to their carts and place orders. Major strides 
+were made with UI/UX, with a stylish theme and Google Books API integration for book
+covers. Next sprint, we will continue refining and improving UI/UX and polish the 
+application in preparation for deployment. 
 
 - Quinn Keenan
-- 10:09PM, 16/11/2025  
+- 30/11/2025, 11:51PM
 - https://github.com/kqfall1/Bookstream
-- https://www.youtube.com/watch?v=cEbrgxEEQRA
+- https://www.youtube.com/watch?v=C3iTAlaszbU

@@ -1,5 +1,6 @@
+import path from "path"
 import dotenv from "dotenv"
-dotenv.config({ path: `.env.${process.env.NODE_ENV || "development"}`})
+dotenv.config({ path: path.resolve("server", `.env.${process.env.NODE_ENV || "development"}`)})
 
 const config = {
   env: process.env.NODE_ENV || "development",

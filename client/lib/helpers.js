@@ -60,6 +60,16 @@ const handleResponse = async (res) => {
     } 
 }
 
+const normalizeBook = async (raw) => {
+  const coverUri = await fetchCoverUri(raw.isbn);
+
+  return {
+    ...raw,
+    id: raw._id || raw.id,
+    img: coverUri || raw.photoPath || "/assets/bookCoverPlaceholder.jpg"
+  };
+} 
+
 /**
  * Bypasses HTTPS mixed blocking. 
  * @param {*} uri The URI of the image resource.
@@ -70,4 +80,4 @@ const normalizeUrl = (uri) => {
   return uri.replace(/^http:\/\//i, "https://");
 };
 
-export { determineHeaders, fetchCoverUri, handleError, handleResponse }
+export { determineHeaders, fetchCoverUri, handleError, normalizeBook, handleResponse }

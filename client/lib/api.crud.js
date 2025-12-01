@@ -1,4 +1,4 @@
-import { handleResponse, handleError } from './helpers.js';
+import { determineHeaders, handleResponse, handleError } from './helpers.js';
 
 /**
  * Creates a new resource by sending a POST request to the specified API route.
@@ -25,19 +25,6 @@ const create = async (apiRoute, credentials, obj) => {
     catch (err) {
         return handleError(err)
     } 
-}
-
-const determineHeaders = (credentials) => {
-    const headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    }
-
-    if (credentials?.t) {
-        headers['Authorization'] = `Bearer ${credentials.t}`
-    }
-
-    return headers
 }
 
 /**
@@ -78,6 +65,7 @@ const list = async (apiRoute, signal) => {
  */
 const read = async (apiRoute, credentials, id, signal) => {
     const headers = determineHeaders(credentials)
+    //console.log("Calling API:", `${apiRoute}${id}`);
     
     try {
         const res = await fetch(`${apiRoute}${id}`, {

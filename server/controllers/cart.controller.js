@@ -33,13 +33,7 @@ const getCart = async (req, res) => {
 };
 
 const addItem = async (req, res) => {
-  console.log("=== ADD ITEM DEBUG ===");
-  console.log("req.auth:", req.auth);
-  console.log("req.body:", req.body);
-  console.log("bookId:", req.body.bookId);
   try {
-    console.log("=== INSIDE ADD ITEM DEBUG ===");
- 
     const { bookId, quantity } = req.body;
 
     //console.log("SIGN secret:", config.jwtSecret);
@@ -60,21 +54,10 @@ const addItem = async (req, res) => {
     } else {
       cart.items.push({ book: bookId, quantity, price: book.price });
     }
-    //await cart.save();
-    try {
-      await cart.save();
-      console.log("Cart saved successfully!");
-    } catch (saveError) {
-      console.error("=== SAVE ERROR ===");
-      console.error("Save error name:", saveError.name);
-      console.error("Save error message:", saveError.message);
-      console.error("Save error details:", saveError);
-      throw saveError;  // Re-throw to be caught by outer catch
-    }
-    
+    await cart.save();
+
     await cart.populate("items.book");
     return res.json(cart);
-    
   } catch (err) {
     return res.status(400).json({ error: errorHandler.getErrorMessage(err) });
   }

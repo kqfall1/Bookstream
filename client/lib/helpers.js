@@ -20,6 +20,19 @@ const determineHeaders = (credentials) => {
   return headers;
 };
 
+const getCandidateUris = (links) => {
+  if (!links) return [];
+
+  return [
+    links.extraLarge,
+    links.large,
+    links.medium,
+    links.small,
+    links.thumbnail,
+    links.smallThumbnail,
+  ].filter(Boolean);
+};
+
 /**
  * Returns the URI for a cover photo of a given book by fetching book data
  * from the Google Books API.
@@ -33,10 +46,26 @@ const fetchCoverUri = async (isbn) => {
     const res = await fetch(
       `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`
     );
+
     const data = await handleResponse(res);
+
+    /* const links = data.items?.[0]?.volumeInfo?.imageLinks;
+    const candidates = getCandidateUris(links);
+    console.log(candidates); */
+
     const info = data.items?.[0]?.volumeInfo;
-    const coverUri =
-      info?.imageLinks?.thumbnail || info?.imageLinks?.smallThumbnail || placeholderCover;
+    let coverUri =
+      info?.imageLinks?.large ||
+      info?.imageLinks?.medium ||
+      info?.imageLinks?.small ||
+      info?.imageLinks?.thumbnail ||
+      info?.imageLinks?.smallThumbnail ||
+      placeholderCover;
+    //    let coverUri = info?.imageLinks?.medium || info?.imageLinks?.thumbnail || placeholderCover;
+
+    if (coverUri && coverUri.includes("books.google.com")) {
+      coverUri = coverUri.replace("&edge=curl", "");
+    }
     return normalizeUrl(coverUri);
   } catch (err) {
     console.error("Cover fetch failed:", err);

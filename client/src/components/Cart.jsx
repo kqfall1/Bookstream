@@ -86,7 +86,7 @@ export default function Cart({ isModal = false, onClose }) {
               <button className="bs-btn" onClick={() => clearCart()}>
                 Clear
               </button>
-              <Link to="/checkout" className="bs-hero-cta">
+              <Link to="/checkout" className="bs-hero-cta" onClick={() => {if (isModal && onClose) onClose();}}>
                 Checkout
               </Link>
             </div>

@@ -37,7 +37,7 @@ const bookSchema = new mongoose.Schema({
         unique: true,
         match: [/^(97(8|9))?\d{9}(\d|X)$/, "Please enter a valid ISBN"]
     },
-    photoUrl: {
+    photoPath: {
         type: String,
         trim: true,
         default: ""

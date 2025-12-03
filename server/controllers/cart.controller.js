@@ -17,7 +17,6 @@ const getCart = async (req, res) => {
   //console.log("Getting cart for usersssss:", req);
 
   try {
-    //console.log("Getting cart for user:");
     let cart = await Cart.findOne({ user: req.auth._id }).populate("items.book");
     //console.log("OGT cart:", cart);
     if (!cart) {

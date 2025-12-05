@@ -17,8 +17,7 @@ const getCart = async (req, res) => {
   //console.log("Getting cart for usersssss:", req);
 
   try {
-    //console.log("Getting cart for user:");
-    let cart = await Cart.findOne({ user: req.auth }).populate("items.book");
+    let cart = await Cart.findOne({ user: req.auth._id }).populate("items.book");
     //console.log("OGT cart:", cart);
     if (!cart) {
       console.log("MAKINGG cart for user:");
@@ -35,7 +34,11 @@ const getCart = async (req, res) => {
 const addItem = async (req, res) => {
   try {
     const { bookId, quantity } = req.body;
+
+    //console.log("SIGN secret:", config.jwtSecret);
+
     const book = await Book.findById(bookId);
+
     if (!book) {
       return res.status(404).json({ error: "Book not found" });
     }
@@ -44,15 +47,14 @@ const addItem = async (req, res) => {
     if (!cart) {
       cart = new Cart({ user: req.auth._id, items: [] });
     }
-
     const existingItem = cart.items.find((item) => item.book.equals(bookId));
     if (existingItem) {
       existingItem.quantity += quantity;
     } else {
       cart.items.push({ book: bookId, quantity, price: book.price });
     }
-
     await cart.save();
+
     await cart.populate("items.book");
     return res.json(cart);
   } catch (err) {

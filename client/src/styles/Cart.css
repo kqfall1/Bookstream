@@ -154,6 +154,10 @@
     text-align: center;
 }
 
+.bs-book-quantity{
+    font-size: 0.9rem;
+}
+
 @media (max-width: 900px) {
     .bs-books-page {
         grid-template-columns: 1fr;

@@ -28,7 +28,7 @@ const cartSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      unique:true
+      unique: true,
     },
     items: [cartItemSchema],
     status: {
@@ -44,11 +44,9 @@ const cartSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
 cartSchema.virtual("itemCount").get(function (password) {
-    return this.items.length;    
-  });
-
+  return this.items.length;
+});
 
 //function to get price
 cartSchema.pre("save", function (next) {

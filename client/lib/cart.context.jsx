@@ -55,6 +55,7 @@ export function CartProvider({ children }) {
   const [cart, setCart] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [notification, setNotification] = useState(null);
 
   const normalizeCart = async (cartData) => {
     if (!cartData || !cartData.items) return cartData;
@@ -113,8 +114,10 @@ export function CartProvider({ children }) {
       const updatedCart = await callApi("POST", "/item", { bookId, quantity });
       const normalizedCart = await normalizeCart(updatedCart);
       setCart(normalizedCart);
+      setNotification({ message: "Your item added to the cart", type: "success" });
     } catch (e) {
       setError(e.message);
+      setNotification({ message: e.message, type: "error" });
     }
   };
 
@@ -185,6 +188,8 @@ export function CartProvider({ children }) {
     }
   };
 
+  const clearNotification = () => setNotification(null);
+
   /**
    * An object that bundles cart-related data and behaviors to be passed into CartProvider components as the value attribute.
    */
@@ -194,6 +199,8 @@ export function CartProvider({ children }) {
     totalPrice: cart?.totalPrice || 0,
     isLoading,
     error,
+    notification,
+    clearNotification,
     addItem,
     removeItem,
     clearCart,

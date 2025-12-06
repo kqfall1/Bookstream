@@ -1,4 +1,5 @@
-import config from "./../../config.js";
+//import config from "./../../config.js";
+import config from "../../config.js"
 import { expressjwt } from "express-jwt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
@@ -45,7 +46,7 @@ const signin = async (req, res) => {
     if (!user.authenticate(req.body.password)) {
       return res.status(401).send({ error: "Email and password don't match." });
     }
-    // console.log("JWT_SECRET used for signing:", config.jwtSecret);
+ console.log("JWT_SECRET used for signing:", config.jwtSecret);
 
     const token = jwt.sign({ _id: user._id }, config.jwtSecret);
     res.cookie("t", token, { expire: new Date() + 9999 });

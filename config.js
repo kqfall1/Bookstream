@@ -16,4 +16,7 @@ const config = {
       "/bookstream",
 };
 
+console.log("JWT_SECRET loaded:", config.jwtSecret ? "YES" : "NO");
+console.log("JWT_SECRET value:", config.jwtSecret);
+
 export default config;

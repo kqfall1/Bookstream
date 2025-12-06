@@ -9,7 +9,7 @@ export default function BookDetails() {
     const { id } = useParams();
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
-    const { add } = useCart();
+    const { addItem } = useCart();
 
     useEffect(() => {
         let mounted = true;
@@ -55,7 +55,7 @@ export default function BookDetails() {
                     <p className="bs-author" style={{ fontSize: '1.05rem', marginTop: 0 }}>{book.author}</p>
                     <p className="bs-price" style={{ fontSize: '1.2rem' }}>${(book.price || 0).toFixed(2)}</p>
                     <div style={{ margin: '16px 0' }}>
-                        <button className="bs-btn" onClick={() => add(book)}>Add to Cart</button>
+                        <button className="bs-btn" onClick={() => addItem(book)}>Add to Cart</button>
                     </div>
 
                     <section style={{ marginTop: 24 }}>

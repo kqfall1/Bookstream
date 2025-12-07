@@ -35,6 +35,7 @@ const addItem = async (req, res) => {
   try {
     const { bookId, quantity } = req.body;
 
+    console.log(req.body)
     //console.log("SIGN secret:", config.jwtSecret);
 
     const book = await Book.findById(bookId);

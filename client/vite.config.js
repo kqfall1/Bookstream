@@ -6,9 +6,10 @@ const PORT = process.env.PORT || 3000
 export default defineConfig({
   plugins: [react()],
   build: {
+    outDir: "dist",
     manifest: true,
     rollupOptions: {
-      input: "./src/main.jsx",
+      input: "./index.html",
     },
   },
   server: {

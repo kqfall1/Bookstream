@@ -1,5 +1,4 @@
-//import config from "./../../config.js";
-import config from "../../config.js"
+import config from "../config.js"
 import { expressjwt } from "express-jwt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";

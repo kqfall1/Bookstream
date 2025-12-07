@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import React, { useState } from "react";
 import "../styles/Cart.css";
 import { useCart } from '../../lib/cart.context.jsx'
-import Checkout from './Checkout.jsx';
 
 export default function Cart({ isModal = false, onClose }) {
     const { items, addItem, removeItem, clearCart } = useCart()
@@ -51,7 +50,7 @@ export default function Cart({ isModal = false, onClose }) {
           <>
             <ul className="bs-cart-list">
               {items.map((it) => (
-                <li key={it._id} className="bs-cart-item">
+                <li key={`${it._id}-${it.title}`} className="bs-cart-item">
                   <img
                     src={it.book.img || it.book.photoPath}
                     alt={it.book.title}
@@ -60,7 +59,7 @@ export default function Cart({ isModal = false, onClose }) {
                   <div style={{ flex: 1 }}>
                     <div className="bs-book-title">{it.book.title}</div>
                     <div className="bs-book-author">{it.book.author}</div>
-                    <div className="bs-book-quantity">
+                    <div className="bs-book-quantity"> 
                       <span>Qty:</span>
                       <button onClick={() => handleDecrement(it)}>-</button>
                       <span>{it.quantity}</span>

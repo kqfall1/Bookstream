@@ -114,7 +114,13 @@ export function CartProvider({ children }) {
       const updatedCart = await callApi("POST", "/item", { bookId, quantity });
       const normalizedCart = await normalizeCart(updatedCart);
       setCart(normalizedCart);
-      setNotification({ message: "Your item added to the cart", type: "success" });
+
+      if (quantity >= 0) {
+        setNotification({ message: "Your item was added to the cart", type: "success" });
+      } 
+      else {
+        setNotification({ message: "Your item was removed from the cart", type: "success" });
+      }
     } catch (e) {
       setError(e.message);
       setNotification({ message: e.message, type: "error" });
@@ -133,6 +139,7 @@ export function CartProvider({ children }) {
       const updatedCart = await callApi("DELETE", "/item", { bookId });
       const normalizedCart = await normalizeCart(updatedCart);
       setCart(normalizedCart);
+      setNotification({message: "Book removed from cart", type: "success"})
     } catch (e) {
       setError(e.message);
     }
@@ -149,8 +156,10 @@ export function CartProvider({ children }) {
       // POST /api/cart/clear
       await callApi("POST", "/clear");
       setCart((prev) => ({ ...prev, items: [], totalPrice: 0 }));
+      setNotification({"message": "Cleared cart", type: "success"})
     } catch (e) {
       setError(e.message);
+      setNotification({ message: e.message, type: "error" });
     }
   };
 
@@ -178,12 +187,12 @@ export function CartProvider({ children }) {
       }
 
       const newOrder = await response.json();
-
-      setCart({ items: [], totalPrice: 0 });
-
+      setCart({ items: [], totalPrice: 0 });  
+      setNotification({message: "Order placed successfully", type: "success"})
       return newOrder;
     } catch (e) {
       setError(e.message);
+      setNotification({ message: e.message, type: "error" });
       throw e;
     }
   };

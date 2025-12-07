@@ -2,6 +2,7 @@ import BookCard from "./BookCard";
 import { fetchCoverUri, normalizeBook } from "../../lib/helpers.js"
 import { list } from "../../lib/api.crud";
 import { useCart } from '../../lib/cart.context'
+import Toast from './Toast';
 import { useState, useEffect } from "react";
 import "../styles/BookList.css";
 
@@ -9,7 +10,7 @@ export default function BooksList({ showFilters = true }) {
     const [books, setBooks] = useState([]);
     const [search, setSearch] = useState('');
     const [activeCategory, setActiveCategory] = useState('');
-    const { items: cart, addItem } = useCart();
+    const { items: cart, addItem, notification, clearNotification } = useCart();
 
     useEffect(() => {
         const controller = new AbortController();
@@ -32,7 +33,7 @@ export default function BooksList({ showFilters = true }) {
                 }
                 else {
                     console.error("Fetch error:", err);
-                    setBooks(SAMPLE_BOOKS);
+                    setBooks([]);
                 }
             }
         }
@@ -44,17 +45,34 @@ export default function BooksList({ showFilters = true }) {
 
     // If filters are hidden (homepage), show all books regardless of previous search/category state.
     const filtered = (!showFilters ? books : books.filter(b => {
-        const q = search.trim().toLowerCase();
-        const matchesSearch = !q || (b.title || '').toLowerCase().includes(q) || (b.author || '').toLowerCase().includes(q);
-        const matchesCategory = !activeCategory || (b.category || '').toLowerCase() === activeCategory.toLowerCase();
-        return matchesSearch && matchesCategory;
-    })).sort((a, b) => a.title.localeCompare(b.title));
+        if (!b) return false;
 
-    const categories = ['Adventure', 'Business', 'Children', 'Fantasy', 'Fiction', 'Mystery'];
+        const q = search.trim().toLowerCase();
+        const title = (b.title || '').toLowerCase();
+        const author = (b.author || '').toLowerCase();
+        const category = (b.category || '').toLowerCase();
+
+        const matchesSearch = !q || title.includes(q) || author.includes(q);
+        const matchesCategory = !activeCategory || category === activeCategory.toLowerCase();
+
+        return matchesSearch && matchesCategory;
+    })).sort((a, b) => {
+        const titleA = a.title || '';
+        const titleB = b.title || '';
+        return titleA.localeCompare(titleB);
+    });
+
+    const categories = ['Fiction', 'Non-Fiction', 'Science', 'History', 'Biography', 'Children', 'Fantasy'];
 
     return (
-        <div className="bs-books-page-full">
-            {showFilters && <h2 className="bs-section-heading">Browse Books</h2>}
+        <>
+            <Toast
+                message={notification?.message}
+                type={notification?.type}
+                onClose={clearNotification}
+            />
+            <div className="bs-books-page-full">
+                {showFilters && <h2 className="bs-section-heading">Browse Books</h2>}
 
             {showFilters && (
                 <>
@@ -87,6 +105,7 @@ export default function BooksList({ showFilters = true }) {
                         : (<p>No books available.</p>)
                 }
             </div>
-        </div>
+            </div>
+        </>
     );
 }

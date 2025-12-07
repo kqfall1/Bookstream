@@ -1,0 +1,32 @@
+
+.bs-book-quantity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.bs-book-quantity span {
+  font-size: 0.9rem;
+}
+
+/* Quantity Buttons */
+.bs-qty-btn {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.bs-qty-display {
+  min-width: 20px;
+  text-align: center;
+  font-weight: 600;
+}

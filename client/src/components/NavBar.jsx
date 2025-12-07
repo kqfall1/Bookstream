@@ -2,7 +2,6 @@ import auth from '../../lib/auth.helpers.js'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { signOut } from '../../lib/api.auth.js'
 import { useEffect, useState } from 'react';
-import logo from '../assets/bookstream.jpeg';
 import { useCart } from '../../lib/cart.context.jsx'
 import "../styles/NavBar.css";
 
@@ -21,7 +20,7 @@ export default function NavBar({ onCartClick }) {
             <div className="bs-nav-wrapper">
                 <div className="bs-nav-left">
                     <div className="bs-logo-box">
-                        <img src={logo} alt="Bookstream logo" className="bs-logo-img" />
+                        <img src="/assets/bookstream.jpeg" alt="Bookstream logo" className="bs-logo-img" />
                     </div>
                     <Link to="/" className="bs-title">Bookstream</Link>
                 </div>

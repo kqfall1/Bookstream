@@ -1,5 +1,4 @@
 import assetRouter from "./routers/asset_router.js";
-import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import compress from "compression";
 import cors from "cors";
@@ -14,8 +13,8 @@ import orderRoute from "./routers/order.routes.js";
 
 
 const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(compress());
 app.use(cookieParser());
 app.use(cors());

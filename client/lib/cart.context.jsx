@@ -111,7 +111,7 @@ export function CartProvider({ children }) {
     }
 
     try {
-      const updatedCart = await callApi("POST", "/carts/item", { bookId, quantity });
+      const updatedCart = await callApi("POST", "/item", { bookId, quantity });
       const normalizedCart = await normalizeCart(updatedCart);
       setCart(normalizedCart);
 

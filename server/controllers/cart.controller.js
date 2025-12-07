@@ -34,6 +34,7 @@ const getCart = async (req, res) => {
 const addItem = async (req, res) => {
   try {
     const { bookId, quantity } = req.body;
+    console.log(req.body)
     //console.log("SIGN secret:", config.jwtSecret);
 
     const book = await Book.findById(bookId);
@@ -57,6 +58,7 @@ const addItem = async (req, res) => {
     await cart.populate("items.book");
     return res.json(cart);
   } catch (err) {
+    console.log(err)
     return res.status(400).json({ error: errorHandler.getErrorMessage(err) });
   }
 };

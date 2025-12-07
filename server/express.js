@@ -11,7 +11,6 @@ import authRoutes from "./routers/auth.routes.js";
 import cartRoute from "./routers/cart.routes.js";   
 import orderRoute from "./routers/order.routes.js";   
 
-
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

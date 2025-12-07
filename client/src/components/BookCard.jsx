@@ -22,7 +22,7 @@ export default function BookCard({ book, onAddToCart = () => { } }) {
                 </div>
             </Link>
             <div className="bs-bottom">
-                <button className="bs-btn" onClick={() => onAddToCart(book.id || book._id)}>Add to Cart</button>
+                <button className="bs-btn" onClick={() => onAddToCart(book._id)}>Add to Cart</button>
             </div>
         </div>     
   );

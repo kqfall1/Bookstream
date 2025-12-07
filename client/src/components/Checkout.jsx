@@ -65,7 +65,7 @@ export default function Checkout() {
         <h3>Order Summary</h3>
         <ul className="bs-checkout-list">
           {items.map((it) => (
-            <li key={it._id} className="bs-cart-item">
+            <li key={`${it._id}-${it.title}`} className="bs-cart-item">
               <img
                 src={it.book.img || it.book.photoPath}
                 alt={it.book.title}
@@ -88,15 +88,6 @@ export default function Checkout() {
             </li>
           ))}
         </ul>
-        {/* <ul>
-          {items.map((item) => (
-             // Using item.book.title based on population in cart.controller
-            <li key={item.book._id} style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>{item.book.title} x {item.quantity}</span>
-              <span>${(item.price * item.quantity).toFixed(2)}</span>
-            </li>
-          ))}
-        </ul> */}
         <div style={{ fontWeight: "bold", marginTop: "10px", textAlign: "right" }}>
           Total: ${totalPrice.toFixed(2)}
         </div>

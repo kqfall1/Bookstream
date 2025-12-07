@@ -8,3 +8,8 @@
   from = "/*"
   to = "/index.html"
   status = 200
+[[redirects]]
+  from = "/api/*"
+  to = "https://bookstream-o1gj.onrender.com/api/:splat"
+  status = 200
+  force = true

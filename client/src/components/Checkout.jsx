@@ -65,7 +65,11 @@ export default function Checkout() {
         <h3>Order Summary</h3>
         <ul className="bs-checkout-list">
           {items.map((it) => (
-            <li key={`${it._id}-${it.title}`} className="bs-cart-item">
+            <li key={
+                it.book?.id || 
+                it._id || 
+                `${it._id}-${it.book?.title}`
+              } className="bs-cart-item">
               <img
                 src={it.book.img || it.book.photoPath}
                 alt={it.book.title}

@@ -1,4 +1,5 @@
 const apiKey = import.meta.env.VITE_GOOGLE_BOOKS_KEY;
+const coverCache = new Map(); 
 const placeholderCover = "/assets/bookCoverPlaceholder.jpg";
 
 /**
@@ -34,13 +35,17 @@ const getCandidateUris = (links) => {
 };
 
 /**
- * Returns the URI for a cover photo of a given book by fetching book data
- * from the Google Books API.
+ * Returns the URI for a cover photo of a given book by retrieving it from the user's local storage
+ * or fetching book data from the Google Books API.
  * @param {*} isbn The corresponding ISBN of the requested book cover.
  * @returns A URI of the book cover from the Books API or a path to the placeholder
  * image if no image URI is found.
  */
 const fetchCoverUri = async (isbn) => {
+  if (coverCache.has(isbn)) {
+    return coverCache.get(isbn)
+  }
+  
   try {
     //console.log(`Fetching cover from URI: https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`)
     const res = await fetch(
@@ -66,7 +71,10 @@ const fetchCoverUri = async (isbn) => {
     if (coverUri && coverUri.includes("books.google.com")) {
       coverUri = coverUri.replace("&edge=curl", "");
     }
-    return normalizeUrl(coverUri);
+
+    const finalUri = normalizeUri(coverUri)
+    coverCache.set(isbn, finalUri)
+    return finalUri
   } catch (err) {
     console.error("Cover fetch failed:", err);
     return placeholderCover;
@@ -103,7 +111,7 @@ const normalizeBook = async (raw) => {
  * @param {*} uri The URI of the image resource.
  * @returns An HTTPS version of the URI or the path for the placeholder cover.
  */
-const normalizeUrl = (uri) => {
+const normalizeUri = (uri) => {
   if (!uri) return placeholderCover;
   return uri.replace(/^http:\/\//i, "https://");
 };

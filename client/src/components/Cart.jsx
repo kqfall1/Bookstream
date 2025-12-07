@@ -50,7 +50,11 @@ export default function Cart({ isModal = false, onClose }) {
           <>
             <ul className="bs-cart-list">
               {items.map((it) => (
-                <li key={`${it._id}-${it.title}`} className="bs-cart-item">
+                <li key={
+                    it.book?.id || 
+                    it._id || 
+                    `${it._id}-${it.book?.title}`
+                  } className="bs-cart-item">
                   <img
                     src={it.book.img || it.book.photoPath}
                     alt={it.book.title}

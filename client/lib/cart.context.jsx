@@ -156,10 +156,9 @@ export function CartProvider({ children }) {
       // POST /api/cart/clear
       await callApi("POST", "/clear");
       setCart((prev) => ({ ...prev, items: [], totalPrice: 0 }));
-      setNotification({"message": "Cleared cart", type: "success"})
+      setNotification({message: "Cleared cart", type: "success"})
     } catch (e) {
       setError(e.message);
-      setNotification({ message: e.message, type: "error" });
     }
   };
 
@@ -192,7 +191,6 @@ export function CartProvider({ children }) {
       return newOrder;
     } catch (e) {
       setError(e.message);
-      setNotification({ message: e.message, type: "error" });
       throw e;
     }
   };

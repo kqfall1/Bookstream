@@ -30,12 +30,8 @@ export default function Checkout() {
   const handleDecrement = async (item) => {
     try {
       if (item.quantity > 1) {
-        // If more than 1, reduce quantity by 1
         await addItem(item.book._id, -1);
-      } else {
-        // If quantity is 1, do nothing for now since there is already a remove button? idk up to the others decisions
-        //await removeItem(item.book._id);
-      }
+      } 
     } catch (err) {
       setError(err.message);
     }
@@ -44,7 +40,6 @@ export default function Checkout() {
   const handlePlaceOrder = async () => {
     try {
       await checkout(address);
-      // Redirect to a success page or order history or home or something
       navigate("/");
     } catch (err) {
       setError(err.message);

@@ -1,5 +1,9 @@
-const apiKey = import.meta.env.VITE_GOOGLE_BOOKS_KEY;
 const placeholderCover = "/assets/bookCoverPlaceholder.jpg";
+const buildOpenLibraryCover = (isbn) => {
+  if (!isbn) return placeholderCover;
+  const cleanIsbn = isbn.replace(/-/g, "");
+  return `https://covers.openlibrary.org/b/isbn/${cleanIsbn}-L.jpg`;
+};
 
 /**
  * Determines the appropriate headers to send in an HTTP request, given a
@@ -20,58 +24,7 @@ const determineHeaders = (credentials) => {
   return headers;
 };
 
-const getCandidateUris = (links) => {
-  if (!links) return [];
-
-  return [
-    links.extraLarge,
-    links.large,
-    links.medium,
-    links.small,
-    links.thumbnail,
-    links.smallThumbnail,
-  ].filter(Boolean);
-};
-
-/**
- * Returns the URI for a cover photo of a given book by fetching book data
- * from the Google Books API.
- * @param {*} isbn The corresponding ISBN of the requested book cover.
- * @returns A URI of the book cover from the Books API or a path to the placeholder
- * image if no image URI is found.
- */
-const fetchCoverUri = async (isbn) => {
-  try {
-    //console.log(`Fetching cover from URI: https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`)
-    const res = await fetch(
-      `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`
-    );
-
-    const data = await handleResponse(res);
-
-    /* const links = data.items?.[0]?.volumeInfo?.imageLinks;
-    const candidates = getCandidateUris(links);
-    console.log(candidates); */
-
-    const info = data.items?.[0]?.volumeInfo;
-    let coverUri =
-      info?.imageLinks?.large ||
-      info?.imageLinks?.medium ||
-      info?.imageLinks?.small ||
-      info?.imageLinks?.thumbnail ||
-      info?.imageLinks?.smallThumbnail ||
-      placeholderCover;
-    //    let coverUri = info?.imageLinks?.medium || info?.imageLinks?.thumbnail || placeholderCover;
-
-    if (coverUri && coverUri.includes("books.google.com")) {
-      coverUri = coverUri.replace("&edge=curl", "");
-    }
-    return normalizeUrl(coverUri);
-  } catch (err) {
-    console.error("Cover fetch failed:", err);
-    return placeholderCover;
-  }
-};
+const fetchCoverUri = async (isbn) => buildOpenLibraryCover(isbn);
 
 const handleError = (err) => {
   console.error("API request failed", err);
@@ -89,12 +42,16 @@ const handleResponse = async (res) => {
 };
 
 const normalizeBook = async (raw) => {
-  const coverUri = await fetchCoverUri(raw.isbn);
+  const existingPath = (raw.photoPath || "").trim();
+  const usesGoogleThumb = existingPath.includes("books.google.com");
+  const coverUri = (!usesGoogleThumb && existingPath)
+    ? normalizeUrl(existingPath)
+    : buildOpenLibraryCover(raw.isbn);
 
   return {
     ...raw,
     id: raw._id || raw.id,
-    img: coverUri || raw.photoPath || "/assets/bookCoverPlaceholder.jpg",
+    img: coverUri || "/assets/bookCoverPlaceholder.jpg",
   };
 };
 

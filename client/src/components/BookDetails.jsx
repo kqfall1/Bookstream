@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { read } from '../../lib/api.crud';
 import { useCart } from '../../lib/cart.context';
 import Toast from './Toast';
-import '../styles/BookList.css';
+import '../styles/BookDetails.css';
 
 export default function BookDetails() {
     const { id } = useParams();
@@ -52,28 +52,32 @@ export default function BookDetails() {
                 type={notification?.type}
                 onClose={clearNotification}
             />
-            <div className="bs-books-page-full">
-                <div className="bs-books-page" style={{ maxWidth: '1100px' }}>
-                    <div style={{ width: '360px' }}>
-                        <img src={book.img} alt={book.title} style={{ width: '100%', height: 'auto', borderRadius: 8, boxShadow: 'var(--shadow-md)' }} />
-                    </div>
+            <div className="bs-book-details-container">
+                <div className="bs-book-details-layout">
                     <div>
-                        <h2 style={{ marginTop: 0 }}>{book.title}</h2>
-                        <p className="bs-author" style={{ fontSize: '1.05rem', marginTop: 0 }}>{book.author}</p>
-                        <p className="bs-price" style={{ fontSize: '1.2rem' }}>${(book.price || 0).toFixed(2)}</p>
-                        <div style={{ margin: '16px 0' }}>
-                            <button className="bs-btn" onClick={() => addItem(book)}>Add to Cart</button>
+                        <img src={book.img} alt={book.title} className="bs-book-cover-large" />
+                    </div>
+                    <div className="bs-book-details-content">
+                        <h1 className="bs-book-title-large">{book.title}</h1>
+                        <p className="bs-book-author-large">{book.author}</p>
+                        <p className="bs-book-price-large">
+                            {book.price != null && !Number.isNaN(Number(book.price))
+                                ? `$${Number(book.price).toFixed(2)}`
+                                : 'Price not available'}
+                        </p>
+
+                        <div className="bs-book-details-info">
+                            <p>{book.description || 'Book details, including its categories, description, ISBN, publish date, etc.'}</p>
                         </div>
 
-                        <section style={{ marginTop: 24 }}>
-                            <h3>Overview</h3>
-                            <p>{book.description || 'No description available for this book.'}</p>
-                            <dl>
-                                {book.isbn && <><dt>ISBN</dt><dd>{book.isbn}</dd></>}
-                                {book.published && <><dt>Published</dt><dd>{book.published}</dd></>}
-                                {book.category && <><dt>Category</dt><dd>{book.category}</dd></>}
-                            </dl>
-                        </section>
+                        <div className="bs-book-actions">
+                            <button className="bs-btn-primary" onClick={() => addItem(book)}>
+                                Add to Cart
+                            </button>
+                            <button className="bs-btn-secondary">
+                                Add to Library
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 const apiKey = import.meta.env.VITE_GOOGLE_BOOKS_KEY;
 const coverCache = new Map(); 
-const placeholderCover = "/assets/bookCoverPlaceholder.jpg";
+const PLACEHOLDER_COVER = "/assets/bookCoverPlaceholder.jpg";
 
 /**
  * Determines the appropriate headers to send in an HTTP request, given a
@@ -42,8 +42,11 @@ const getCandidateUris = (links) => {
  * image if no image URI is found.
  */
 const fetchCoverUri = async (isbn) => {
-  if (coverCache.has(isbn)) {
-    return coverCache.get(isbn)
+  const cachedCover = localStorage.getItem(isbn);
+
+  if (cachedCover) {
+    //console.log(`Returning book "${isbn}" from the user's local storage.`)
+    return cachedCover 
   }
   
   try {
@@ -65,7 +68,7 @@ const fetchCoverUri = async (isbn) => {
       info?.imageLinks?.small ||
       info?.imageLinks?.thumbnail ||
       info?.imageLinks?.smallThumbnail ||
-      placeholderCover;
+      PLACEHOLDER_COVER;
     //    let coverUri = info?.imageLinks?.medium || info?.imageLinks?.thumbnail || placeholderCover;
 
     if (coverUri && coverUri.includes("books.google.com")) {
@@ -73,26 +76,31 @@ const fetchCoverUri = async (isbn) => {
     }
 
     const finalUri = normalizeUri(coverUri)
-    coverCache.set(isbn, finalUri)
+    localStorage.setItem(isbn, finalUri)
     return finalUri
   } catch (err) {
-    console.error("Cover fetch failed:", err);
-    return placeholderCover;
+    handleError(err)
+    return PLACEHOLDER_COVER;
   }
 };
 
 const handleError = (err) => {
-  console.error("API request failed", err);
+  console.error("API request failed -", err);
   throw err;
 };
 
+/**
+ * Silently swallows AbortErrors for console hygiene. 
+ */
 const handleResponse = async (res) => {
   try {
     const data = await res.json();
     return data;
   } catch (err) {
-    console.error("Failed to parse response as JSON", err);
-    throw err;
+    if (err.name !== "AbortError") { //Swallows AbortErrors for console 
+      console.error("Failed to parse response as JSON", err);
+      throw err;
+    }
   }
 };
 
@@ -112,7 +120,7 @@ const normalizeBook = async (raw) => {
  * @returns An HTTPS version of the URI or the path for the placeholder cover.
  */
 const normalizeUri = (uri) => {
-  if (!uri) return placeholderCover;
+  if (!uri) return PLACEHOLDER_COVER;
   return uri.replace(/^http:\/\//i, "https://");
 };
 

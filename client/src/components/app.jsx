@@ -1,11 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import Footer from "./Footer"; 
-<<<<<<< HEAD
 import NavBar from "./NavBar.jsx";
-=======
-import NavBar from "./Navbar";
->>>>>>> eb096360a79967e10057d764682a327eadb3f1d7
 import BooksList from "./BookList";
 import SignIn from "./SignIn";
 import CreateAccount from "./CreateAccount";

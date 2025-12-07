@@ -1,16 +1,9 @@
 node_modules/
-<<<<<<< HEAD
 .env
 .env.development
 .env.production
 npm-debug.log*
 client/dist/
-=======
-.env.development
-.env.production
-npm-debug.log*
-dist/
->>>>>>> eb096360a79967e10057d764682a327eadb3f1d7
 build/
 .vscode/
 .DS_Store

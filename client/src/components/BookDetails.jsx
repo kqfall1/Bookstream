@@ -13,13 +13,11 @@ export default function BookDetails() {
     const { addItem, notification, clearNotification } = useCart();
 
     useEffect(() => {
-        let mounted = true;
         const controller = new AbortController();
 
         async function fetchBook() {
             try {
                 const data = await read(`/api/books/`, null, id, controller.signal);
-                if (!mounted) return;
                 if (data) {
                     const normalized = await normalizeBook(data)
                     setBook(normalized);
@@ -34,12 +32,12 @@ export default function BookDetails() {
                 }
             }
             finally {
-                if (mounted) setLoading(false);
+                setLoading(false);
             }
         }
 
         fetchBook();
-        return () => { mounted = false; controller.abort(); };
+        return () => controller.abort();
     }, [id]);
 
     if (loading) return <div className="bs-form-centered"><p>Loading book details…</p></div>;

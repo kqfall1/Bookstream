@@ -28,7 +28,7 @@ const signIn = async (credentials) => {
             if (data.user) auth.setUser(data.user)
         }
 
-        console.log(data)
+        //console.log(data)
         return data
     }
     catch (err) {

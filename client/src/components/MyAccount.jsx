@@ -1,4 +1,3 @@
-import placeholder from "../assets/profilePhotoPlaceholder.jpg"
 import { useEffect, useState } from "react";
 import auth from '../../lib/auth.helpers.js';
 import { useNavigate } from 'react-router-dom';
@@ -66,7 +65,7 @@ export default function MyAccount() {
             <div className="bs-account-grid">
                 <div className="bs-profile-column">
                     <div className="bs-profile-photo">
-                        <img src={placeholder} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '6px' }} />
+                        <img src="assets/profilePhotoPlaceholder.jpg" alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '6px' }} />
                     </div>
                     <div className="bs-account-actions">
                         <button className="bs-hero-cta primary" onClick={handleEditClick}>Edit Profile</button>

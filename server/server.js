@@ -1,5 +1,5 @@
 import app from "./express.js";
-import config from "config.js";
+import config from "./config.js";
 import mongoose from "mongoose";
 
 mongoose.Promise = global.Promise;

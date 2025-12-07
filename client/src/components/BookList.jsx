@@ -28,10 +28,7 @@ export default function BooksList({ showFilters = true }) {
                 }
             }
             catch (err) {
-                if (err.name === "AbortError") {
-                    console.log("Fetch aborted: component unmounted or re-rendered.");
-                }
-                else {
+                if (err.name !== "AbortError") {
                     console.error("Fetch error:", err);
                     setBooks([]);
                 }

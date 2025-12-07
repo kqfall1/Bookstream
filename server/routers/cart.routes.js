@@ -7,9 +7,15 @@ const router = express.Router()
 router.route('/')
     .get(authCtrl.requireSignin, cartCtrl.getCart)     
     .post(authCtrl.requireSignin, cartCtrl.createCart)  
-router.route('/item')
+router.post("/item", (req, res) => {
+  console.log("Cart request body:", req.body);
+  if (!req.body.bookId || !req.body.quantity) {
+    return res.status(400).json({ error: "Missing bookId or quantity" });
+  }
+});
+/* router.route('/item')
     .post(authCtrl.requireSignin, cartCtrl.addItem)     
-    .delete(authCtrl.requireSignin, cartCtrl.removeItem)
+    .delete(authCtrl.requireSignin, cartCtrl.removeItem) */ 
 
 router.route('/clear')
     .post(authCtrl.requireSignin, cartCtrl.clearCart)    

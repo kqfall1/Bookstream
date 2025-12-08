@@ -32,14 +32,15 @@ const handleError = (err) => {
 };
 
 /**
- * Silently swallows AbortErrors for console hygiene. 
+ * Silently swallows AbortErrors for console hygiene.
  */
 const handleResponse = async (res) => {
   try {
     const data = await res.json();
     return data;
   } catch (err) {
-    if (err.name !== "AbortError") { //Swallows AbortErrors for console 
+    if (err.name !== "AbortError") {
+      //Swallows AbortErrors for console
       console.error("Failed to parse response as JSON", err);
       throw err;
     }
@@ -47,16 +48,15 @@ const handleResponse = async (res) => {
 };
 
 const normalizeBook = async (raw) => {
-  const existingPath = (raw.photoPath || "").trim();
-  const usesGoogleThumb = existingPath.includes("books.google.com");
-  const coverUri = (!usesGoogleThumb && existingPath)
-    ? normalizeUri(existingPath)
-    : buildOpenLibraryCover(raw.isbn);
+  //const existingPath = (raw.photoPath || "").trim();
+  //onst usesGoogleThumb = existingPath.includes("books.google.com");
+  const coverUri = // !usesGoogleThumb && existingPath ? normalizeUri(existingPath) :
+    buildOpenLibraryCover(raw.isbn);
 
   return {
     ...raw,
     id: raw._id || raw.id,
-    img: coverUri || "/assets/bookCoverPlaceholder.jpg",
+    img: coverUri || PLACEHOLDER_COVER,
   };
 };
 
@@ -65,9 +65,9 @@ const normalizeBook = async (raw) => {
  * @param {*} uri The URI of the image resource.
  * @returns An HTTPS version of the URI or the path for the placeholder cover.
  */
-const normalizeUri = (uri) => {
+/* const normalizeUri = (uri) => {
   if (!uri) return PLACEHOLDER_COVER;
   return uri.replace(/^http:\/\//i, "https://");
-};
+}; */
 
 export { determineHeaders, fetchCoverUri, handleError, normalizeBook, handleResponse };

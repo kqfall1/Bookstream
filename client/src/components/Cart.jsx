@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import React, { useState } from "react";
 import "../styles/Cart.css";
 import { useCart } from '../../lib/cart.context.jsx'
+const PLACEHOLDER = "/assets/bookCoverPlaceholder.jpg";
 
 export default function Cart({ isModal = false, onClose }) {
     const { items, addItem, removeItem, clearCart } = useCart()
@@ -40,7 +41,7 @@ export default function Cart({ isModal = false, onClose }) {
                 </button>
               )}
               {!isModal && (
-                <Link to="/" className="bs-hero-cta primary">
+                <Link to="/browse" className="bs-hero-cta primary">
                   Browse Books
                 </Link>
               )}
@@ -56,9 +57,10 @@ export default function Cart({ isModal = false, onClose }) {
                     `${it._id}-${it.book?.title}`
                   } className="bs-cart-item">
                   <img
-                    src={it.book.img || it.book.photoPath}
+                    src={it.book.img || it.book.photoPath || PLACEHOLDER}
                     alt={it.book.title}
                     className="bs-thumb"
+                    onError={(e) => { e.currentTarget.src = PLACEHOLDER; }}
                   />
                   <div style={{ flex: 1 }}>
                     <div className="bs-book-title">{it.book.title}</div>

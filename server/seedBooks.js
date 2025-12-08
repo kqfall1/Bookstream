@@ -321,7 +321,7 @@ const newBooks = [
     author: "J.R.R. Tolkien",
     category: "Adventure",
     description: "Bilbo Baggins joins a band of dwarves on a quest to reclaim their mountain home from the dragon Smaug.",
-    isbn: "9780547928226",
+    isbn: "9780547928227",
     photoPath: "https://books.google.com/books/content?id=IXz2xAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
     price: 13.99,
     publisher: "Mariner Books",

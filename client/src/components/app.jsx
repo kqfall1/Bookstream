@@ -9,6 +9,7 @@ import MyAccount from "./MyAccount";
 import BookDetails from "./BookDetails";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
+import Homepage from "./Homepage"
 
 
 function App() {
@@ -22,8 +23,9 @@ function App() {
       <NavBar onCartClick={openCartModal} />
       <main>
         <Routes>
-          <Route path="/" element={<BooksList showFilters={false} />} />
+          {/* <Route path="/" element={<BooksList showFilters={false} />} /> */}
           <Route path="/browse" element={<BooksList showFilters={true} />} />
+          <Route path="/" element={<Homepage />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<CreateAccount />} />
           <Route path="/account" element={<MyAccount />} />

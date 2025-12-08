@@ -55,10 +55,4 @@ cartSchema.pre("save", function () {
   );
 });
 
-/* function to get price
-cartSchema.pre("save", function (next) {
-  this.totalPrice = this.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  next();
-}); */
-
 export default mongoose.model("Cart", cartSchema);

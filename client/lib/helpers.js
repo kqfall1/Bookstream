@@ -21,19 +21,6 @@ const determineHeaders = (credentials) => {
   return headers;
 };
 
-const getCandidateUris = (links) => {
-  if (!links) return [];
-
-  return [
-    links.extraLarge,
-    links.large,
-    links.medium,
-    links.small,
-    links.thumbnail,
-    links.smallThumbnail,
-  ].filter(Boolean);
-};
-
 /**
  * Returns the URI for a cover photo of a given book by retrieving it from the user's local storage
  * or fetching book data from the Google Books API.
@@ -57,10 +44,6 @@ const fetchCoverUri = async (isbn) => {
 
     const data = await handleResponse(res);
 
-    /* const links = data.items?.[0]?.volumeInfo?.imageLinks;
-    const candidates = getCandidateUris(links);
-    console.log(candidates); */
-
     const info = data.items?.[0]?.volumeInfo;
     let coverUri =
       info?.imageLinks?.large ||
@@ -69,14 +52,17 @@ const fetchCoverUri = async (isbn) => {
       info?.imageLinks?.thumbnail ||
       info?.imageLinks?.smallThumbnail ||
       PLACEHOLDER_COVER;
-    //    let coverUri = info?.imageLinks?.medium || info?.imageLinks?.thumbnail || placeholderCover;
 
     if (coverUri && coverUri.includes("books.google.com")) {
       coverUri = coverUri.replace("&edge=curl", "");
     }
 
     const finalUri = normalizeUri(coverUri)
-    localStorage.setItem(isbn, finalUri)
+
+    if (finalUri !== PLACEHOLDER_COVER) {
+      localStorage.setItem(isbn, finalUri)
+    }
+
     return finalUri
   } catch (err) {
     handleError(err)
